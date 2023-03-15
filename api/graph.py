@@ -2,7 +2,7 @@ from flow import db_connect, col_connect, fileName
 
 def read_graph():
     graph = ""
-    with open('./dot/output.dot') as f:
+    with open('../dot/output.dot') as f:
             for line in f:    
                 if (line.find("->")!=-1):
                      graph+=line

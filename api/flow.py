@@ -4,7 +4,7 @@ def read_graph():
     startNode=[]
     #targetNode=[]
     flow=[]
-    with open('./dot/output.dot') as f:
+    with open('../dot/output.dot') as f:
             for line in f:    
                 if (line.find("->")!=-1):
                     for word in line.split():   

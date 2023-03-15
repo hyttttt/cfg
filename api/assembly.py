@@ -22,7 +22,7 @@ def col_connect(colName):
 def read_file():
     ids=[]
     ass=[]
-    with open('./dot/output.dot') as f:
+    with open('../dot/output.dot') as f:
             for line in f:     
                 temp = line.partition("\"")
                 temp = temp[2].partition("\"")
