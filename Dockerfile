@@ -13,3 +13,5 @@ RUN apt-get update \
     && cd "/home/gradle/ghidra_10.2.3_PUBLIC/Ghidra/Extensions" \
     && unzip "/home/gradle/Ghidrathon-2.0.1/dist/ghidra_10.2.3_PUBLIC_20230315_Ghidrathon-2.0.1.zip" \
     && cd "/home/gradle/ghidra_10.2.3_PUBLIC/support/" \
+WORKDIR ./src
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
