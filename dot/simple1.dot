@@ -1,0 +1,24 @@
+strict digraph  {
+bb_80483ed [assembly="134513645: PUSH EBP\n134513646: MOV EBP,ESP\n134513648: CMP dword ptr [EBP + 0x8],0x0\n134513652: JLE 0x080483ff\n", function=f0];
+bb_80483f6 [assembly="134513654: MOV dword ptr [EBP + 0x8],0x1\n134513661: JMP 0x08048406\n", function=f0];
+bb_80483ff [assembly="134513663: MOV dword ptr [EBP + 0x8],0x2\n", function=f0];
+bb_8048406 [assembly="134513670: POP EBP\n134513671: RET\n", function=f0];
+bb_8048408 [assembly="134513672: PUSH EBP\n134513673: MOV EBP,ESP\n134513675: SUB ESP,0x14\n134513678: CMP dword ptr [EBP + -0x4],0x0\n134513682: JLE 0x08048421\n", function=main];
+bb_8048414 [assembly="134513684: MOV EAX,dword ptr [EBP + -0x4]\n134513687: MOV dword ptr [ESP],EAX\n134513690: CALL 0x080483ed\n", function=main];
+bb_804841f [assembly="134513695: JMP 0x0804842d\n", function=main];
+bb_8048421 [assembly="134513697: MOV dword ptr [ESP],0x0\n134513704: CALL 0x080483ed\n", function=main];
+bb_804842d [assembly="134513709: LEAVE\n134513710: RET\n", function=main];
+bb_80483ed -> bb_80483ff  [flowType="Conditional Jump"];
+bb_80483ed -> bb_80483f6  [flowType=Fall];
+bb_80483f6 -> bb_8048406  [flowType=Jump];
+bb_80483ff -> bb_8048406  [flowType=Fall];
+bb_8048406 -> bb_804842d  [flowType=ret];
+bb_8048406 -> bb_804841f  [flowType=ret];
+bb_8048408 -> bb_8048421  [flowType="Conditional Jump"];
+bb_8048408 -> bb_8048414  [flowType=Fall];
+bb_8048414 -> bb_80483ed  [flowType=Call];
+bb_8048414 -> bb_804841f  [flowType=Fall];
+bb_804841f -> bb_804842d  [flowType=Jump];
+bb_8048421 -> bb_80483ed  [flowType=Call];
+bb_8048421 -> bb_804842d  [flowType=Fall];
+}
