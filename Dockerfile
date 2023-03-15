@@ -1,10 +1,9 @@
 FROM gradle:jdk17
 
-COPY main.py ./src/
+COPY api ./src
 RUN apt-get update \
     && apt-get install -y python3-pip python-is-python3 \
-    && pip3 install jep \
-    && pip3 install networkx \
+    && pip3 install -r ./src/requirements.txt \
     && wget "https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_10.2.3_build/ghidra_10.2.3_PUBLIC_20230208.zip" -O ghidra.zip \
     && unzip ghidra.zip \
     && wget "https://github.com/mandiant/Ghidrathon/archive/refs/tags/v2.0.1.zip" \
