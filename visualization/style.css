@@ -1,0 +1,56 @@
+svg {
+  overflow: hidden;
+}
+.node rect {
+  stroke: #333;
+  stroke-width: 1.5px;
+  fill: #fff;
+}
+.edgeLabel rect {
+  fill: #fff;
+}
+.edgePath {
+  stroke: #333;
+  stroke-width: 1.5px;
+  fill: #333;
+}
+
+#title {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 50px;
+  height: auto;
+  padding: 2%;
+}
+
+#intro {
+  width: 100%;
+  height: auto;
+  padding: 0% 5%;
+}
+
+.draw {
+  margin: 5%;
+  padding: 5%;
+  border-style: groove;
+}
+
+.fileSelect {
+  margin: 5%;
+  padding: 5%;
+}
+
+#list-group-div {
+  height: 410px;
+  overflow: auto;
+}
+
+#new {
+  position: absolute;
+  font-size: 18px;
+  text-align: center;
+  width: auto;
+  height: auto;
+  padding: 10px;
+  background-color: black;
+  color: white;
+}
