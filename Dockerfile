@@ -9,8 +9,7 @@ RUN apt-get update \
     && wget "https://github.com/mandiant/Ghidrathon/archive/refs/tags/v2.0.1.zip" \
     && unzip v2.0.1.zip \
     && cd "Ghidrathon-2.0.1/" \
-    && gradle -PGHIDRA_INSTALL_DIR="/home/gradle/ghidra_10.2.3_PUBLIC" \
+    && gradle --no-daemon -PGHIDRA_INSTALL_DIR="/home/gradle/ghidra_10.2.3_PUBLIC" \
     && cd "/home/gradle/ghidra_10.2.3_PUBLIC/Ghidra/Extensions" \
-    && unzip "/home/gradle/Ghidrathon-2.0.1/dist/ghidra_10.2.3_PUBLIC_20230315_Ghidrathon-2.0.1.zip" \
-    && cd "/home/gradle/ghidra_10.2.3_PUBLIC/support/" \
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "80"]
+    && unzip "/home/gradle/Ghidrathon-2.0.1/dist/ghidra_10.2.3_PUBLIC_$(date '+%Y%m%d')_Ghidrathon-2.0.1"
+CMD ["uvicorn", "src.health:app", "--host", "0.0.0.0"]
