@@ -1,6 +1,7 @@
 FROM gradle:jdk17
 
-COPY api ./src
+COPY . ./src
+ENV PATH=$PATH:/usr/local/go/bin
 RUN apt-get update \
     && apt-get install -y python3-pip python-is-python3 \
     && pip3 install -r ./src/requirements.txt \
@@ -11,5 +12,9 @@ RUN apt-get update \
     && cd "Ghidrathon-2.0.1/" \
     && gradle --no-daemon -PGHIDRA_INSTALL_DIR="/home/gradle/ghidra_10.2.3_PUBLIC" \
     && cd "/home/gradle/ghidra_10.2.3_PUBLIC/Ghidra/Extensions" \
-    && unzip "/home/gradle/Ghidrathon-2.0.1/dist/ghidra_10.2.3_PUBLIC_$(date '+%Y%m%d')_Ghidrathon-2.0.1"
-CMD ["uvicorn", "src.health:app", "--host", "0.0.0.0"]
+    && unzip "/home/gradle/Ghidrathon-2.0.1/dist/ghidra_10.2.3_PUBLIC_$(date '+%Y%m%d')_Ghidrathon-2.0.1" \
+    && cd "/home/gradle/" \
+    && wget "https://go.dev/dl/go1.20.2.linux-amd64.tar.gz" \
+    && tar -C /usr/local -xzf go1.20.2.linux-amd64.tar.gz
+WORKDIR ./src
+CMD ["go","run","main.go"]
