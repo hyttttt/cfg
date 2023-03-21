@@ -17,4 +17,6 @@ RUN apt-get update \
     && wget "https://go.dev/dl/go1.20.2.linux-amd64.tar.gz" \
     && tar -C /usr/local -xzf go1.20.2.linux-amd64.tar.gz
 WORKDIR ./src
-CMD ["go","run","main.go"]
+RUN go build ./main.go
+ENTRYPOINT ["./main"]
+EXPOSE 8000
