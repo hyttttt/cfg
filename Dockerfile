@@ -1,11 +1,11 @@
-FROM gradle:jdk17
+FROM gradle:jdk17 AS base
 
-COPY . ./src
 ENV PATH=$PATH:/usr/local/go/bin
 RUN apt-get update \
-    && apt-get install -y python3-pip python-is-python3 \
-    && pip3 install -r ./src/requirements.txt \
-    && wget "https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_10.2.3_build/ghidra_10.2.3_PUBLIC_20230208.zip" -O ghidra.zip \
+    && apt-get install -y python3-pip python-is-python3
+
+FROM base
+RUN wget "https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_10.2.3_build/ghidra_10.2.3_PUBLIC_20230208.zip" -O ghidra.zip \
     && unzip ghidra.zip \
     && wget "https://github.com/mandiant/Ghidrathon/archive/refs/tags/v2.0.1.zip" \
     && unzip v2.0.1.zip \
@@ -16,7 +16,9 @@ RUN apt-get update \
     && cd "/home/gradle/" \
     && wget "https://go.dev/dl/go1.20.2.linux-amd64.tar.gz" \
     && tar -C /usr/local -xzf go1.20.2.linux-amd64.tar.gz
+COPY . ./src
 WORKDIR ./src
-RUN go build ./main.go
+RUN pip3 install -r requirements.txt \
+    && go build ./main.go
 ENTRYPOINT ["./main"]
 EXPOSE 8000
