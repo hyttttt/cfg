@@ -1,5 +1,2 @@
 networkx
 jep
-pymongo
-fastapi
-uvicorn
