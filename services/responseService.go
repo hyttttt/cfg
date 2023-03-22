@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func ResponseWithJson(w http.ResponseWriter, code int, payload interface{}) {
-	response, _ := json.Marshal(payload)
+func ResponseWithJson(w http.ResponseWriter, res interface{}) {
+	response, _ := json.Marshal(res)
 	w.Write(response)
 }
