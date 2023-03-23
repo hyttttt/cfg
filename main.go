@@ -1,10 +1,10 @@
 package main
 
 import (
-	"net/http"
+	routes "cfg/router"
 )
 
 func main() {
-	http.Handle("/", http.FileServer(http.Dir("./static")))
-	http.ListenAndServe(":8000", nil)
+	router := routes.NewRouter()
+	router.Run(":8000")
 }
