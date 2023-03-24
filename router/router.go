@@ -1,8 +1,8 @@
 package router
 
 import (
+	"cfg/controller"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 type Route struct {
@@ -17,16 +17,15 @@ func GET(engine *gin.Engine, path string, handler func(c *gin.Context)) {
 	engine.GET(path, handler)
 }
 
+func POST(engine *gin.Engine, path string, handler func(c *gin.Context)) {
+	engine.POST(path, handler)
+}
 func register(method func(engine *gin.Engine, path string, handler func(c *gin.Context)), path string, handler func(c *gin.Context)) {
 	routes = append(routes, Route{method, path, handler})
 }
 
 func init() {
-	register(GET, "/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
-			"title": "CFG Viewer",
-		})
-	})
+	register(GET, "/", controller.HomePage)
 }
 
 func NewRouter() *gin.Engine {
