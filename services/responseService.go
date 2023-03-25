@@ -2,11 +2,10 @@ package services
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"net/http"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -39,7 +38,6 @@ func PingMongo(client *mongo.Client, ctx context.Context) error {
 	return nil
 }
 
-func ResponseWithJson(w http.ResponseWriter, res interface{}) {
-	response, _ := json.Marshal(res)
-	w.Write(response)
+func ResponseInJson(c *gin.Context) {
+
 }
