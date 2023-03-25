@@ -2,6 +2,7 @@ package router
 
 import (
 	"cfg/controller"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,6 +27,7 @@ func register(method func(engine *gin.Engine, path string, handler func(c *gin.C
 
 func init() {
 	register(GET, "/", controller.HomePage)
+	register(GET, "/", controller.ReturnFunction)
 }
 
 func NewRouter() *gin.Engine {
