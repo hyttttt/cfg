@@ -24,11 +24,16 @@ func CFGPage(c *gin.Context) {
 func Hash(c *gin.Context) {
 	target := c.Query("hash")
 	if target == "" {
-		services.ReturnHashList(c)
+		services.GetHashList(c)
 	} else {
-		services.ReturnFunction(c, target)
+		services.GetFunction(c, target)
 	}
 
+}
+
+func Dot(c *gin.Context) {
+	target := c.Query("cfg_id")
+	services.GetDot(c, target)
 }
 
 func AnalyzeBinary(c *gin.Context) {
