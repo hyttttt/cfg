@@ -27,8 +27,8 @@ func register(method func(engine *gin.Engine, path string, handler func(c *gin.C
 
 func init() {
 	register(GET, "/", controller.HomePage)
-	register(GET, "/binary", controller.ReturnHashList)
-	register(GET, "/binary/:hash", controller.ReturnFunction)
+	register(GET, "/binary", controller.Hash)
+	register(GET, "/binary/:hash", controller.CFGPage)
 	register(POST, "/binary", controller.AnalyzeBinary)
 }
 
