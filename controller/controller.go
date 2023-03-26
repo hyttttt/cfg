@@ -76,4 +76,5 @@ func AnalyzeBinary(c *gin.Context) {
 	if err != nil {
 		log.Fatalf("cmd.Run() failed with %s\n", err)
 	}
+	c.JSON(http.StatusOK, gin.H{})
 }
