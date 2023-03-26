@@ -29,6 +29,7 @@ func init() {
 	register(GET, "/", controller.HomePage)
 	register(GET, "/binary", controller.ReturnHashList)
 	register(GET, "/binary/:hash", controller.ReturnFunction)
+	register(POST, "/binary", controller.AnalyzeBinary)
 }
 
 func NewRouter() *gin.Engine {

@@ -3,96 +3,65 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Demo</title>
-    <link rel="stylesheet" href="./static/style.css" />
+    <title>Index Demo</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-      crossorigin="anonymous"
+      href="../static/bootstrap-5.3.0-alpha2/scss/bootstrap.css"
     />
+    <link rel="stylesheet" href="../static/css/index.css" />
   </head>
   <body>
-    <!-- import drawing libraries start -->
-
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://dagrejs.github.io/project/graphlib-dot/v0.6.4/graphlib-dot.min.js"></script>
-    <script src="https://dagrejs.github.io/project/dagre-d3/v0.5.0/dagre-d3.min.js"></script>
-
-    <!-- import drawing libraries end -->
-
-    <!-- navigate bar start -->
-
-    <nav class="navbar navbar-expand-lg bg-body-secondary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Dropdown
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <!-- navigate bar end -->
-
-    <!-- content area start -->
-
-    <div id="title">Title</div>
-    <div id="intro">
-      Some introduction here<br />
-      Some introduction here<br />
-      Some introduction here<br />
-      Some introduction here<br />
-    </div>
-
-    <div class="row">
-      <div class="col-4">
-        <div class="fileSelect">
-          <!-- upload button start -->
-
-          <div class="mb-3">
-            <input class="form-control" type="file" id="formFile" />
+    <div class="container-fluid">
+      <!--Navigator bar start-->
+      <div class="row">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-purple">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </div>
+            </div>
           </div>
+        </nav>
+      </div>
+      <!--Navigator bar end-->
 
-          <!-- upload button end -->
+      <!--Content area start-->
+      <div class="row justify-content-center">
+        <div class="col-3"></div>
+        <div class="col-6" style="text-align: center; padding-top: 30px">
+          <!-- Description start -->
+          <h1>Title</h1>
+          <p>
+            <br />
+            some description<br />
+            some description<br />
+            some description<br />
+            some description<br />
+            some description<br />
+            some description<br />
+          </p>
+          <!-- Description end -->
+
+          <!-- upload file button start -->
+          <h4><br />You can upload your file</h4>
+          <input class="form-control" type="file" id="formFile" />
+          <!-- upload file button end -->
 
           <!-- select file list start -->
+          <h4><br />...or select from our list</h4>
 
           <div class="accordion" id="accordionExample">
             <div class="accordion-item">
@@ -110,7 +79,7 @@
               </h2>
               <div
                 id="collapseOne"
-                class="accordion-collapse collapse"
+                class="accordion-collapse collapse show"
                 aria-labelledby="headingOne"
                 data-bs-parent="#accordionExample"
               >
@@ -120,25 +89,17 @@
               </div>
             </div>
           </div>
-
           <!-- select file list end -->
         </div>
+        <div class="col-3"></div>
       </div>
-      <div class="col-8">
-        <div class="draw">
-          <svg id="graphContainer">
-            <g />
-          </svg>
-        </div>
-      </div>
+      <!--Content area end-->
     </div>
 
-    <!-- content area end -->
-
-    <script src="./static/index.js"></script>
+    <script src="../static/js/index.js"></script>
     <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
       crossorigin="anonymous"
     ></script>
   </body>

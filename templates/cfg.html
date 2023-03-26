@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CFG Demo</title>
+    <link
+      rel="stylesheet"
+      href="../static/bootstrap-5.3.0-alpha2/scss/bootstrap.css"
+    />
+    <link rel="stylesheet" href="../static/css/cfg.css" />
+  </head>
+  <body>
+    <!-- import drawing libraries start -->
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://dagrejs.github.io/project/graphlib-dot/v0.6.4/graphlib-dot.min.js"></script>
+    <script src="https://dagrejs.github.io/project/dagre-d3/v0.5.0/dagre-d3.min.js"></script>
+
+    <!-- import drawing libraries end -->
+
+    <div class="container-fluid">
+      <!--Navigator bar start-->
+      <div class="row">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-purple">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <!--Navigator bar end-->
+
+      <!--Content area start-->
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6" style="text-align: center; padding-top: 30px">
+          <div class="draw">
+            <svg id="graphContainer">
+              <g />
+            </svg>
+          </div>
+        </div>
+        <div class="col-3"></div>
+      </div>
+      <!--Content area end-->
+    </div>
+
+    <script src="../static/js/cfg.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

@@ -2,7 +2,9 @@ package controller
 
 import (
 	"cfg/services"
+	"log"
 	"net/http"
+	"os/exec"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -66,4 +68,13 @@ func ReturnHashList(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"status": "success", "list:": &result})
+}
+
+func AnalyzeBinary(c *gin.Context) {
+	cmd := exec.Command("./ghidra_10.2.3_PUBLIC/support/analyzeHeadless", "/home/gradle", "t", "-preScript", "test.py")
+	err := cmd.Run()
+	if err != nil {
+		log.Fatalf("cmd.Run() failed with %s\n", err)
+	}
+	c.JSON(http.StatusOK, gin.H{})
 }
