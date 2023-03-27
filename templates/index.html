@@ -16,6 +16,9 @@
       <div class="row">
         <nav class="navbar navbar-expand-lg navbar-dark bg-purple">
           <div class="container-fluid">
+            <div style="margin: 10px 20px 10px 10px">
+              <img src="icon.png" alt="cfg" width="30" height="28" />
+            </div>
             <a class="navbar-brand" href="#">Navbar</a>
             <button
               class="navbar-toggler"
@@ -29,9 +32,16 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </div>
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#"
+                    >Home</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="#">Contact us</a>
+                </li>
+              </ul>
             </div>
           </div>
         </nav>
@@ -39,29 +49,32 @@
       <!--Navigator bar end-->
 
       <!--Content area start-->
-      <div class="row justify-content-center">
-        <div class="col-3"></div>
-        <div class="col-6" style="text-align: center; padding-top: 30px">
+      <div class="row justify-content-center" style="padding-top: 40px">
+        <div class="col-2"></div>
+        <div class="col-8" id="content">
           <!-- Description start -->
-          <h1>Title</h1>
+          <h1 style="font-weight: bold">Lorem Ipsum</h1>
+
           <p>
             <br />
-            some description<br />
-            some description<br />
-            some description<br />
-            some description<br />
-            some description<br />
-            some description<br />
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book. Lorem Ipsum is simply
+            dummy text of the printing and typesetting industry. Lorem Ipsum has
+            been the industry's standard dummy text ever since the 1500s, when
+            an unknown printer took a galley of type and scrambled it to make a
+            type specimen book.
           </p>
           <!-- Description end -->
 
           <!-- upload file button start -->
-          <h4><br />You can upload your file</h4>
+          <h5><br />You can upload your file</h5>
           <input class="form-control" type="file" id="formFile" />
           <!-- upload file button end -->
 
           <!-- select file list start -->
-          <h4><br />...or select from our list</h4>
+          <h5><br />...or select from our list</h5>
 
           <div class="accordion" id="accordionExample">
             <div class="accordion-item">
@@ -91,7 +104,7 @@
           </div>
           <!-- select file list end -->
         </div>
-        <div class="col-3"></div>
+        <div class="col-2"></div>
       </div>
       <!--Content area end-->
     </div>
