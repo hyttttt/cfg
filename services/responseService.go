@@ -16,7 +16,7 @@ func GetFunction(c *gin.Context, target string) {
 	defer CloseMongo(client, ctx, cancel) //release resources
 	PingMongo(client, ctx)
 
-	collection := client.Database("cfg").Collection("")
+	collection := client.Database("cfg").Collection("binary")
 
 	var result *models.Binary
 	filter := bson.D{bson.E{Key: "hash", Value: target}}
@@ -36,7 +36,7 @@ func GetHashList(c *gin.Context) {
 	defer CloseMongo(client, ctx, cancel) //release resources
 	PingMongo(client, ctx)
 
-	collection := client.Database("cfg").Collection("")
+	collection := client.Database("cfg").Collection("binary")
 
 	var result *models.Binary
 	filter := bson.D{bson.E{Key: "hash", Value: true}}
@@ -56,7 +56,7 @@ func GetDot(c *gin.Context, target string) {
 	defer CloseMongo(client, ctx, cancel) //release resources
 	PingMongo(client, ctx)
 
-	collection := client.Database("cfg").Collection("")
+	collection := client.Database("cfg").Collection("binary")
 
 	var result *models.Binary
 	filter := bson.D{bson.E{Key: "cfg_id", Value: target}}
