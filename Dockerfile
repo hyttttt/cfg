@@ -2,7 +2,7 @@ FROM gradle:jdk17 AS base
 
 ENV PATH=$PATH:/usr/local/go/bin
 RUN apt-get update \
-    && apt-get install -y python3-pip python-is-python3
+    && apt-get install -y python3-pip python-is-python3 graphviz graphviz-dev
 
 FROM base
 RUN wget "https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_10.2.3_build/ghidra_10.2.3_PUBLIC_20230208.zip" -O ghidra.zip \
