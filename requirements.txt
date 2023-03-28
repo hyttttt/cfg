@@ -1,2 +1,4 @@
-networkx
-jep
+networkx==2.5.1
+jep==4.0.3
+pydot==1.4.2
+pygraphviz==1.6 --install-option="--include-path=/usr/include/graphviz/" --install-option="--library-path=/usr/lib/x86_64-linux-gnu/graphviz/"
