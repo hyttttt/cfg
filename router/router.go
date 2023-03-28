@@ -29,8 +29,8 @@ func init() {
 	register(GET, "/", controller.HomePage)
 	register(GET, "/binary", controller.Hash)
 	register(GET, "/binary/:hash", controller.CFGPage)
+	register(GET, "/cfg", controller.Dot)
 	register(POST, "/binary", controller.AnalyzeBinary)
-	register(GET, "/cfg/:cfg_id", controller.Dot)
 }
 
 func NewRouter() *gin.Engine {
