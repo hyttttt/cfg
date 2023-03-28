@@ -3,13 +3,15 @@ package services
 import (
 	"cfg/models"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
 func GetFunction(c *gin.Context, target string) {
-	client, ctx, cancel, err := ConnectMongo("")
+	uri := os.Getenv("MONGODB_URI")
+	client, ctx, cancel, err := ConnectMongo(uri)
 	if err != nil {
 		panic(err)
 	}
@@ -29,7 +31,8 @@ func GetFunction(c *gin.Context, target string) {
 }
 
 func GetHashList(c *gin.Context) {
-	client, ctx, cancel, err := ConnectMongo("")
+	uri := os.Getenv("MONGODB_URI")
+	client, ctx, cancel, err := ConnectMongo(uri)
 	if err != nil {
 		panic(err)
 	}
@@ -49,7 +52,8 @@ func GetHashList(c *gin.Context) {
 }
 
 func GetDot(c *gin.Context, target string) {
-	client, ctx, cancel, err := ConnectMongo("")
+	uri := os.Getenv("MONGODB_URI")
+	client, ctx, cancel, err := ConnectMongo(uri)
 	if err != nil {
 		panic(err)
 	}
