@@ -128,6 +128,8 @@ function drawDot(digraph, nodeList, edgeList) {
   svg.style.width = bbox.width + 40.0 + "px";
   svg.style.height = bbox.height + 40.0 + "px";
 
+  var edges = document.querySelectorAll(".edgePath");
+
   // Show node's name when mouse hover
   var nodes = document.querySelectorAll(".node");
   for (i = 0; i < nodes.length; i++) {
