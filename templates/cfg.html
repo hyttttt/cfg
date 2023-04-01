@@ -18,7 +18,7 @@
 
     <div class="container-fluid">
       <!--Navigator bar start-->
-      <div class="row">
+      <div class="row" style="font-family: 'Noto Sans'">
         <nav class="navbar navbar-expand-lg navbar-dark bg-purple">
           <div class="container-fluid">
             <div style="margin: 10px 20px 10px 10px">
@@ -44,7 +44,10 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#"
+                  <a
+                    class="nav-link active"
+                    aria-current="page"
+                    href="index.html"
                     >Home</a
                   >
                 </li>
@@ -52,6 +55,15 @@
                   <a class="nav-link active" href="#">Contact us</a>
                 </li>
               </ul>
+              <div style="margin: 10px">
+                <a href="https://github.com/eeechun/cfg"
+                  ><img
+                    src="../static/img/github.png"
+                    alt="github"
+                    width="30"
+                    height="28"
+                /></a>
+              </div>
             </div>
           </div>
         </nav>
@@ -59,16 +71,10 @@
       <!--Navigator bar end-->
 
       <!--Content area start-->
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6" style="text-align: center; padding-top: 30px">
-          <div class="draw">
-            <svg id="graphContainer">
-              <g />
-            </svg>
-          </div>
-        </div>
-        <div class="col-3"></div>
+      <div class="draw">
+        <svg id="graphContainer">
+          <g />
+        </svg>
       </div>
       <!--Content area end-->
     </div>

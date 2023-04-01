@@ -132,13 +132,54 @@ function drawDot(digraph, nodeList, edgeList) {
 
   // Show node's name when mouse hover
   var nodes = document.querySelectorAll(".node");
-  for (i = 0; i < nodes.length; i++) {
-    nodes[i].onmouseover = function () {
-      var str = getAssembly(this.textContent, nodeList);
-      show_info(str);
+
+  nodes.forEach(function (node) {
+    // create subwindow and hide it
+    var nodeRect = node.getBoundingClientRect();
+    var nodeName = node.textContent;
+    var assembly = getAssembly(nodeName, nodeList);
+
+    var parent = document.querySelector(".draw");
+    var left = nodeRect.left;
+    var top = nodeRect.top + nodeRect.height;
+
+    var sub = createADWindow(parent, nodeName, top, left, assembly);
+
+    // change visibility according to mouse's position
+    var mouseX = 0;
+    var mouseY = 0;
+    document.addEventListener("mousemove", function (event) {
+      mouseX = event.clientX + window.pageXOffset;
+      mouseY = event.clientY + window.pageYOffset;
+    });
+
+    var subRect = sub.getBoundingClientRect();
+
+    node.onmouseover = function () {
+      sub.style.visibility = "visible";
     };
-    nodes[i].onmouseout = hide_info;
-  }
+
+    node.onmouseleave = function () {
+      console.log(`mouse: ${mouseX}, ${mouseY}`);
+      console.log(
+        `sub: left: ${subRect.left}, right: ${subRect.right}, top: ${subRect.top}, bottom: ${subRect.bottom}`
+      );
+
+      if (
+        (mouseX < subRect.left ||
+          mouseX > subRect.right ||
+          mouseY < subRect.top - 20 ||
+          mouseY > subRect.bottom) &&
+        sub.style.visibility == "visible"
+      ) {
+        sub.style.visibility = "hidden";
+      }
+    };
+
+    sub.onmouseleave = function () {
+      sub.style.visibility = "hidden";
+    };
+  });
 }
 
 // Intent: Find the corresponding assembly for the node
@@ -150,57 +191,14 @@ function getAssembly(node, nodeList) {
   }
 }
 
-// Intent: create a window that show the node's assembly when hover the node
-// Parameter: assembly code (string)
-// Return: None
-function show_info(information) {
-  // get mouse position
-  // refer to: https://tw511.com/a/01/2703.html
-  var parent = document.querySelector(".draw");
-  var mouseX = 0;
-  var mouseY = 0;
-  var event = event || window.event;
-
-  if (event.pageX || event.pageY) {
-    mouseX = event.pageX;
-    mouseY = event.pageY;
-  } else if (event.clientX || event.clientY) {
-    mouseX =
-      event.clientX +
-      document.documentElement.scrollLeft +
-      document.body.scrollLeft;
-    mouseY =
-      event.clientY +
-      document.documentElement.scrollTop +
-      document.body.scrollTop;
-  }
-
-  var centerX = window.innerWidth / 2;
-  var centerY = window.innerHeight;
-
-  // create new window
-  createADWindow(parent, "new", centerX, centerY, mouseX, mouseY, information);
-}
-
 // Intent: create a new sub window at assigned place and show the assembly code
 // Parameter: parent div,
 //            assigned id of new window,
-//            window's center position x,
-//            window's center position y,
-//            mouse's center position x,
-//            mouse's center position y,
+//            top position,
+//            left position,
 //            assembly code of the node
 // Return: None
-// refer to: https://mrcodingroom.freesite.host/js%E6%87%B8%E6%B5%AE%E5%BC%8F%E7%AA%97%E3%80%81%E6%8B%96%E5%8B%95%E8%A6%96%E7%AA%97%E3%80%81%E5%BB%A3%E5%91%8A%E8%A6%96%E7%AA%97/
-const createADWindow = (
-  app,
-  id,
-  p_centerX,
-  p_centerY,
-  mouseX,
-  mouseY,
-  information
-) => {
+const createADWindow = (parent, id, top, left, information) => {
   // set up sub window
   if (document.getElementById(id)) return;
   const mainDiv = document.createElement("div");
@@ -210,26 +208,31 @@ const createADWindow = (
   mainDiv.innerHTML = information;
 
   // add new window
-  app.appendChild(mainDiv);
+  parent.appendChild(mainDiv);
 
-  // sub window's position
-  var rect = mainDiv.getBoundingClientRect();
-  var posX = mouseX - rect.width / 2;
-  var posY = 0;
-  if (mouseY > p_centerY) {
-    posY = mouseY - rect.height - 30;
-  } else {
-    posY = mouseY + 30;
-  }
+  // sub window's style sheet
+  mainDiv.style.cssText += `top:${top}px;\
+  left: ${left}px;\
+  position: absolute;\
+  font-size: 18px;\
+  font-family: 'Noto Sans';\
+  text-align: left;\
+  width: auto;\
+  height: auto;\
+  padding: 10px;\
+  margin: 10px;\
+  background-color: black;\
+  color: white;\
+  visibility:hidden`;
 
-  mainDiv.style.cssText += `top:${posY}px;` + `left: ${posX}px;`;
+  return mainDiv;
 };
 
 // Intent: remove the subwindow to hide information when not hovering the node
 // Parameter: None
 // Return: None
-function hide_info() {
-  if (document.getElementById("new")) {
-    document.getElementById("new").remove();
+function hide_info(id) {
+  if (document.getElementById(id)) {
+    document.getElementById(id).remove();
   }
 }
