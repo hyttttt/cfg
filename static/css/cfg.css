@@ -9,6 +9,7 @@ svg {
 .edgeLabel rect {
   fill: #fff;
 }
+
 .edgePath {
   stroke: #333;
   stroke-width: 1.5px;

@@ -98,7 +98,7 @@ function parseDot(raw) {
       var temp2 = temp1[1].split("=");
       var flowType = temp2[1].slice(0, -1);
 
-      digraph += edge + ";";
+      digraph += edge + `[label=${flowType}];`;
       edgeList.push({ node1: nodes[0], node2: nodes[1], flowType: flowType });
     }
   }
@@ -118,9 +118,23 @@ function drawDot(digraph, nodeList, edgeList) {
   // Parse the DOT syntax into a graphlib object
   var g = graphlibDot.read(digraph);
 
+  // change edge color according to flowtype
+  g.edges().forEach(function (e) {
+    var flow = getFlowtype(e.v, e.w, edgeList);
+    /*g.setEdge(e.v, e.w, {
+      label: flow.label,
+      style: `stroke: ${flow.color}; stroke-width: 1.5px; fill: #fff;`,
+      arrowheadStyle: `stroke: ${flow.color}; fill: ${flow.color};`,
+    });*/
+    g.setEdge(e.v, e.w, {
+      style: `stroke: ${flow.color}; stroke-width: 1.5px; fill: #fff;`,
+      arrowheadStyle: `stroke: ${flow.color}; fill: ${flow.color};`,
+    });
+  });
+
   // Render the graphlib object using d3
   var render = new dagreD3.render();
-  render(d3.select("svg"), g);
+  render(d3.select("#graphContainer"), g);
 
   // resize the SVG element based on the contents
   var svg = document.querySelector("#graphContainer");
@@ -132,6 +146,13 @@ function drawDot(digraph, nodeList, edgeList) {
 
   // Show node's name when mouse hover
   var nodes = document.querySelectorAll(".node");
+
+  // adjust radius of node
+  const rects = document.querySelectorAll("rect");
+  rects.forEach(function (rect) {
+    rect.setAttribute("rx", 10);
+    rect.setAttribute("ry", 10);
+  });
 
   nodes.forEach(function (node) {
     // create subwindow and hide it
@@ -160,11 +181,6 @@ function drawDot(digraph, nodeList, edgeList) {
     };
 
     node.onmouseleave = function () {
-      console.log(`mouse: ${mouseX}, ${mouseY}`);
-      console.log(
-        `sub: left: ${subRect.left}, right: ${subRect.right}, top: ${subRect.top}, bottom: ${subRect.bottom}`
-      );
-
       if (
         (mouseX < subRect.left ||
           mouseX > subRect.right ||
@@ -180,6 +196,42 @@ function drawDot(digraph, nodeList, edgeList) {
       sub.style.visibility = "hidden";
     };
   });
+}
+
+// Intent: Find the flowtype for the edge
+// Parameter: node name 1 (string), node name 2 (string), edge List (array)
+// Return: A json containing edge style
+function getFlowtype(node1, node2, edgeList) {
+  var colorMap = {
+    '"Conditional Jump"': "#FFB04B",
+    Jump: "#E05E66",
+    Call: "#3FFA63",
+    ret: "#AB74F7",
+    Fall: "#5EB6E0",
+  };
+
+  for (i = 0; i < edgeList.length; i++) {
+    if (edgeList[i].node1 == node1 && edgeList[i].node2 == node2)
+      return {
+        label: edgeList[i].flowType,
+        color: colorMap[edgeList[i].flowType],
+      };
+  }
+  /*
+  edgeList.forEach(function (edge) {
+    if (edge.node1 == node1 && edge.node2 == node2) {
+      console.log(`${node1}, ${node2}, ${edge.flowType}`);
+
+      var result = {
+        label: edge.flowType,
+        style: `stroke: ${colorMap[edge.flowType]};\
+        stroke-width: 1.5px;\
+        fill: ${colorMap[edge.flowType]}`,
+      };
+
+      return colorMap[edge.flowType];
+    }
+  });*/
 }
 
 // Intent: Find the corresponding assembly for the node
@@ -214,15 +266,16 @@ const createADWindow = (parent, id, top, left, information) => {
   mainDiv.style.cssText += `top:${top}px;\
   left: ${left}px;\
   position: absolute;\
-  font-size: 18px;\
+  font-size: 15px;\
   font-family: 'Noto Sans';\
   text-align: left;\
   width: auto;\
   height: auto;\
   padding: 10px;\
-  margin: 10px;\
-  background-color: black;\
+  margin: 10px 0px;\
+  background-color: #573596;\
   color: white;\
+  border-radius: 10px;\
   visibility:hidden`;
 
   return mainDiv;
