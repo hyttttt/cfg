@@ -8,9 +8,10 @@ function loadList() {
   var myList = document.getElementById("myList");
 
   for (i = 0; i < 30; i++) {
-    const newLi = document.createElement("li");
+    const newLi = document.createElement("a");
     newLi.innerHTML = "New List Item " + i;
     newLi.className = "list-group-item";
+    newLi.href = "cfg.html";
 
     newLi.onmouseover = function () {
       this.className = "list-group-item active";

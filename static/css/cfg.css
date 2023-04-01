@@ -1,11 +1,23 @@
 svg {
   overflow: hidden;
 }
+
+#description {
+  padding: 20px;
+}
+
+#myList {
+  margin: 20px;
+  height: 400px;
+  overflow: auto;
+}
+
 .node rect {
   stroke: #333;
   stroke-width: 1.5px;
   fill: #fff;
 }
+
 .edgeLabel rect {
   fill: #fff;
 }
@@ -17,7 +29,7 @@ svg {
 }
 
 .draw {
-  margin: 20px;
+  margin: 30px 20px;
   text-align: center;
   font-family: "Noto Sans";
 }
