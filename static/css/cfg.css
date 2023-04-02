@@ -6,6 +6,10 @@ svg {
   padding: 20px;
 }
 
+#content {
+  font-family: "Noto Sans";
+}
+
 #myList {
   margin: 20px;
   height: 400px;
