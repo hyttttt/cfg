@@ -1,17 +1,63 @@
 window.onload = function () {
   // load the binaries we have and make it a list
-  loadList();
+  var hash_list = mockApi("GET", "/binary", "");
+  loadList(hash_list);
+
+  const fileInput = document.querySelector("#fileInput");
+  fileInput.addEventListener("change", (event) => {
+    uploadFile(event.target.files[0]);
+  });
 };
 
+function mockApi(method, router, parameter) {
+  // upload binary then return hash
+  if (method == "POST" && router == "/binary") {
+    return { hash: "output_hash" }; // temperarily return a dot file name
+  }
+  // return hash list (all the binaries in the database)
+  else if (method == "GET" && router == "/binary" && parameter == "") {
+    return { hash_list: ["output_hash", "simple1_hash", "ais3_crackme_hash"] };
+  }
+}
+
+function uploadFile(file) {
+  console.log(file.name);
+
+  const form = new FormData();
+  form.append("file", file);
+
+  // upload to backend
+  /*fetch("/binary", {
+    method: "POST",
+    body: form,
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));*/
+
+  // get hash to find the cfg_ids & function names
+  var hash = mockApi("POST", "/binary", "");
+
+  // transform data into query string format
+  var queryString = Object.keys(hash)
+    .map(function (key) {
+      return key + "=" + encodeURIComponent(hash[key]);
+    })
+    .join("&");
+
+  // redirect to cfg page and bring data along
+  window.location.href = "cfg.html?" + queryString + "&cfg_id=none";
+}
+
 // load the binaries we have and make it a list
-function loadList() {
+function loadList(list) {
   var myList = document.getElementById("myList");
 
-  for (i = 0; i < 30; i++) {
+  for (i = 0; i < list.hash_list.length; i++) {
     const newLi = document.createElement("a");
-    newLi.innerHTML = "New List Item " + i;
+    newLi.innerHTML = list.hash_list[i];
     newLi.className = "list-group-item";
-    newLi.href = "cfg.html";
+    newLi.href = "cfg.html?hash=" + list.hash_list[i] + "&cfg_id=none";
 
     newLi.onmouseover = function () {
       this.className = "list-group-item active";

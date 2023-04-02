@@ -1,50 +1,26 @@
 window.onload = function () {
-  // load the binaries we have and make it a list
-  loadList();
+  // get query string on URL
+  var queryString = window.location.search.substring(1);
 
-  var raw =
-    'strict digraph  {\
-      bb_400520 [assembly="4195616: PUSH RBP\n4195617: MOV RBP,RSP\n4195620: MOV qword ptr [RBP + -0x18],RDI\n4195624: MOV dword ptr [RBP + -0x4],0x0\n4195631: JMP 0x004005a1\n"];\
-      bb_400531 [assembly="4195633: MOV EAX,dword ptr [RBP + -0x4]\n4195636: MOVSXD RDX,EAX\n4195639: MOV RAX,qword ptr [RBP + -0x18]\n4195643: ADD RAX,RDX\n4195646: MOVZX EAX,byte ptr [RAX]\n4195649: MOV EDX,EAX\n4195651: MOV EAX,dword ptr [RBP + -0x4]\n4195654: XOR EAX,EDX\n4195656: MOV byte ptr [RBP + -0x5],AL\n4195659: MOVZX EDX,byte ptr [RBP + -0x5]\n4195663: MOV EAX,dword ptr [RBP + -0x4]\n4195666: XOR EAX,0x9\n4195669: AND EAX,0x3\n4195672: MOV ECX,EAX\n4195674: SHL EDX,CL\n4195676: MOV EAX,EDX\n4195678: MOV EDX,EAX\n4195680: MOVZX ESI,byte ptr [RBP + -0x5]\n4195684: MOV EAX,dword ptr [RBP + -0x4]\n4195687: XOR EAX,0x9\n4195690: AND EAX,0x3\n4195693: MOV ECX,EAX\n4195695: MOV EAX,0x8\n4195700: SUB EAX,ECX\n4195702: MOV ECX,EAX\n4195704: SAR ESI,CL\n4195706: MOV EAX,ESI\n4195708: OR EAX,EDX\n4195710: MOV byte ptr [RBP + -0x5],AL\n4195713: ADD byte ptr [RBP + -0x5],0x8\n4195717: MOV EAX,dword ptr [RBP + -0x4]\n4195720: CDQE\n4195722: MOVZX EAX,byte ptr [RAX + 0x601020]\n4195729: CMP AL,byte ptr [RBP + -0x5]\n4195732: JZ 0x0040059d\n"];\
-      bb_400596 [assembly="4195734: MOV EAX,0x0\n4195739: JMP 0x004005c3\n"];\
-      bb_40059d [assembly="4195741: ADD dword ptr [RBP + -0x4],0x1\n"];\
-      bb_4005a1 [assembly="4195745: MOV EAX,dword ptr [RBP + -0x4]\n4195748: MOVSXD RDX,EAX\n4195751: MOV RAX,qword ptr [RBP + -0x18]\n4195755: ADD RAX,RDX\n4195758: MOVZX EAX,byte ptr [RAX]\n4195761: TEST AL,AL\n4195763: JNZ 0x00400531\n"];\
-      bb_4005b9 [assembly="4195769: CMP dword ptr [RBP + -0x4],0x17\n4195773: SETZ AL\n4195776: MOVZX EAX,AL\n"];\
-      bb_4005c3 [assembly="4195779: POP RBP\n4195780: RET\n"];\
-      bb_4005c5 [assembly="4195781: PUSH RBP\n4195782: MOV RBP,RSP\n4195785: SUB RSP,0x10\n4195789: MOV dword ptr [RBP + -0x4],EDI\n4195792: MOV qword ptr [RBP + -0x10],RSI\n4195796: CMP dword ptr [RBP + -0x4],0x2\n4195800: JZ 0x004005eb\n"];\
-      bb_4005da [assembly="4195802: MOV EDI,0x4006c8\n4195807: CALL 0x004003f0\n"];\
-      bb_4005e4 [assembly="4195812: MOV EAX,0xffffffff\n4195817: JMP 0x0040061d\n"];\
-      bb_4005eb [assembly="4195819: MOV RAX,qword ptr [RBP + -0x10]\n4195823: ADD RAX,0x8\n4195827: MOV RAX,qword ptr [RAX]\n4195830: MOV RDI,RAX\n4195833: CALL 0x00400520\n"];\
-      bb_4005fe [assembly="4195838: TEST EAX,EAX\n4195840: JZ 0x0040060e\n"];\
-      bb_400602 [assembly="4195842: MOV EDI,0x4006f0\n4195847: CALL 0x004003f0\n"];\
-      bb_40060c [assembly="4195852: JMP 0x00400618\n"];\
-      bb_40060e [assembly="4195854: MOV EDI,0x400718\n4195859: CALL 0x004003f0\n"];\
-      bb_400618 [assembly="4195864: MOV EAX,0x0\n"];\
-      bb_40061d [assembly="4195869: LEAVE\n4195870: RET\n"];\
-      bb_400520 -> bb_4005a1  [flowType=Jump];\
-      bb_400531 -> bb_40059d  [flowType="Conditional Jump"];\
-      bb_400531 -> bb_400596  [flowType=Jump];\
-      bb_400596 -> bb_4005c3  [flowType=Jump];\
-      bb_40059d -> bb_4005a1  [flowType=Jump];\
-      bb_4005a1 -> bb_400531  [flowType="Conditional Jump"];\
-      bb_4005a1 -> bb_4005b9  [flowType=Jump];\
-      bb_4005b9 -> bb_4005c3  [flowType=Jump];\
-      bb_4005c5 -> bb_4005eb  [flowType="Conditional Jump"];\
-      bb_4005c5 -> bb_4005da  [flowType=Jump];\
-      bb_4005da -> bb_4005e4  [flowType=Jump];\
-      bb_4005e4 -> bb_40061d  [flowType=Jump];\
-      bb_4005eb -> bb_400520  [flowType=Call];\
-      bb_4005eb -> bb_4005fe  [flowType=Jump];\
-      bb_4005fe -> bb_40060e  [flowType="Conditional Jump"];\
-      bb_4005fe -> bb_400602  [flowType=Jump];\
-      bb_400602 -> bb_40060c  [flowType=Jump];\
-      bb_40060c -> bb_400618  [flowType=Jump];\
-      bb_40060e -> bb_400618  [flowType=Jump];\
-      bb_400618 -> bb_40061d  [flowType=Jump];\
-      }';
+  // Extract query string into object
+  var data = {};
+  queryString.split("&").forEach(function (item) {
+    var pair = item.split("=");
+    data[pair[0]] = decodeURIComponent(pair[1]);
+  });
+
+  // load the function list
+  var cfg_list = mockApi("GET", "/binary", data.hash);
+  loadList(cfg_list);
 
   // parsing raw dot file
-  var mydot = parseDot(raw);
+  var raw;
+  if (data.cfg_id == "none") {
+    raw = mockApi("GET", "/cfg", cfg_list.function[0].cfg_id);
+  } else {
+    raw = mockApi("GET", "/cfg", data.cfg_id);
+  }
+  var mydot = parseDot(raw.dot);
   var digraph = mydot.digraph;
   var nodeList = mydot.nodeList;
   var edgeList = mydot.edgeList;
@@ -53,15 +29,164 @@ window.onload = function () {
   drawDot(digraph, nodeList, edgeList);
 };
 
+function mockApi(method, router, parameter) {
+  // return a list of cfg_id and corresponding function name
+  if (method == "GET" && router == "/binary" && parameter != "") {
+    var funcs = [];
+
+    var name = parameter.split("_")[0];
+
+    funcs.push({
+      cfg_id: name + "_cfg_id_0",
+      name: name + "_whole",
+    });
+
+    for (i = 1; i < 31; i++) {
+      funcs.push({
+        cfg_id: name + "_cfg_id_" + i,
+        name: name + "_function_" + i,
+      });
+    }
+
+    return { hash: parameter, function: funcs };
+  }
+  // return cfg_id and dot
+  else if (method == "GET" && router == "/cfg" && parameter != "") {
+    var dot = "";
+
+    if (parameter == "output_cfg_id_0") {
+      dot =
+        'strict digraph  {\
+        bb_400520 [assembly="4195616: PUSH RBP\n4195617: MOV RBP,RSP\n4195620: MOV qword ptr [RBP + -0x18],RDI\n4195624: MOV dword ptr [RBP + -0x4],0x0\n4195631: JMP 0x004005a1\n"];\
+        bb_400531 [assembly="4195633: MOV EAX,dword ptr [RBP + -0x4]\n4195636: MOVSXD RDX,EAX\n4195639: MOV RAX,qword ptr [RBP + -0x18]\n4195643: ADD RAX,RDX\n4195646: MOVZX EAX,byte ptr [RAX]\n4195649: MOV EDX,EAX\n4195651: MOV EAX,dword ptr [RBP + -0x4]\n4195654: XOR EAX,EDX\n4195656: MOV byte ptr [RBP + -0x5],AL\n4195659: MOVZX EDX,byte ptr [RBP + -0x5]\n4195663: MOV EAX,dword ptr [RBP + -0x4]\n4195666: XOR EAX,0x9\n4195669: AND EAX,0x3\n4195672: MOV ECX,EAX\n4195674: SHL EDX,CL\n4195676: MOV EAX,EDX\n4195678: MOV EDX,EAX\n4195680: MOVZX ESI,byte ptr [RBP + -0x5]\n4195684: MOV EAX,dword ptr [RBP + -0x4]\n4195687: XOR EAX,0x9\n4195690: AND EAX,0x3\n4195693: MOV ECX,EAX\n4195695: MOV EAX,0x8\n4195700: SUB EAX,ECX\n4195702: MOV ECX,EAX\n4195704: SAR ESI,CL\n4195706: MOV EAX,ESI\n4195708: OR EAX,EDX\n4195710: MOV byte ptr [RBP + -0x5],AL\n4195713: ADD byte ptr [RBP + -0x5],0x8\n4195717: MOV EAX,dword ptr [RBP + -0x4]\n4195720: CDQE\n4195722: MOVZX EAX,byte ptr [RAX + 0x601020]\n4195729: CMP AL,byte ptr [RBP + -0x5]\n4195732: JZ 0x0040059d\n"];\
+        bb_400596 [assembly="4195734: MOV EAX,0x0\n4195739: JMP 0x004005c3\n"];\
+        bb_40059d [assembly="4195741: ADD dword ptr [RBP + -0x4],0x1\n"];\
+        bb_4005a1 [assembly="4195745: MOV EAX,dword ptr [RBP + -0x4]\n4195748: MOVSXD RDX,EAX\n4195751: MOV RAX,qword ptr [RBP + -0x18]\n4195755: ADD RAX,RDX\n4195758: MOVZX EAX,byte ptr [RAX]\n4195761: TEST AL,AL\n4195763: JNZ 0x00400531\n"];\
+        bb_4005b9 [assembly="4195769: CMP dword ptr [RBP + -0x4],0x17\n4195773: SETZ AL\n4195776: MOVZX EAX,AL\n"];\
+        bb_4005c3 [assembly="4195779: POP RBP\n4195780: RET\n"];\
+        bb_4005c5 [assembly="4195781: PUSH RBP\n4195782: MOV RBP,RSP\n4195785: SUB RSP,0x10\n4195789: MOV dword ptr [RBP + -0x4],EDI\n4195792: MOV qword ptr [RBP + -0x10],RSI\n4195796: CMP dword ptr [RBP + -0x4],0x2\n4195800: JZ 0x004005eb\n"];\
+        bb_4005da [assembly="4195802: MOV EDI,0x4006c8\n4195807: CALL 0x004003f0\n"];\
+        bb_4005e4 [assembly="4195812: MOV EAX,0xffffffff\n4195817: JMP 0x0040061d\n"];\
+        bb_4005eb [assembly="4195819: MOV RAX,qword ptr [RBP + -0x10]\n4195823: ADD RAX,0x8\n4195827: MOV RAX,qword ptr [RAX]\n4195830: MOV RDI,RAX\n4195833: CALL 0x00400520\n"];\
+        bb_4005fe [assembly="4195838: TEST EAX,EAX\n4195840: JZ 0x0040060e\n"];\
+        bb_400602 [assembly="4195842: MOV EDI,0x4006f0\n4195847: CALL 0x004003f0\n"];\
+        bb_40060c [assembly="4195852: JMP 0x00400618\n"];\
+        bb_40060e [assembly="4195854: MOV EDI,0x400718\n4195859: CALL 0x004003f0\n"];\
+        bb_400618 [assembly="4195864: MOV EAX,0x0\n"];\
+        bb_40061d [assembly="4195869: LEAVE\n4195870: RET\n"];\
+        bb_400520 -> bb_4005a1  [flowType=Jump];\
+        bb_400531 -> bb_40059d  [flowType="Conditional Jump"];\
+        bb_400531 -> bb_400596  [flowType=Jump];\
+        bb_400596 -> bb_4005c3  [flowType=Jump];\
+        bb_40059d -> bb_4005a1  [flowType=Jump];\
+        bb_4005a1 -> bb_400531  [flowType="Conditional Jump"];\
+        bb_4005a1 -> bb_4005b9  [flowType=Jump];\
+        bb_4005b9 -> bb_4005c3  [flowType=Jump];\
+        bb_4005c5 -> bb_4005eb  [flowType="Conditional Jump"];\
+        bb_4005c5 -> bb_4005da  [flowType=Jump];\
+        bb_4005da -> bb_4005e4  [flowType=Jump];\
+        bb_4005e4 -> bb_40061d  [flowType=Jump];\
+        bb_4005eb -> bb_400520  [flowType=Call];\
+        bb_4005eb -> bb_4005fe  [flowType=Jump];\
+        bb_4005fe -> bb_40060e  [flowType="Conditional Jump"];\
+        bb_4005fe -> bb_400602  [flowType=Jump];\
+        bb_400602 -> bb_40060c  [flowType=Jump];\
+        bb_40060c -> bb_400618  [flowType=Jump];\
+        bb_40060e -> bb_400618  [flowType=Jump];\
+        bb_400618 -> bb_40061d  [flowType=Jump];\
+        }';
+    } else if (parameter == "simple1_cfg_id_0") {
+      dot =
+        'strict digraph  {\
+        bb_80483ed [assembly="134513645: PUSH EBP\n134513646: MOV EBP,ESP\n134513648: CMP dword ptr [EBP + 0x8],0x0\n134513652: JLE 0x080483ff\n", function=f0];\
+        bb_80483f6 [assembly="134513654: MOV dword ptr [EBP + 0x8],0x1\n134513661: JMP 0x08048406\n", function=f0];\
+        bb_80483ff [assembly="134513663: MOV dword ptr [EBP + 0x8],0x2\n", function=f0];\
+        bb_8048406 [assembly="134513670: POP EBP\n134513671: RET\n", function=f0];\
+        bb_8048408 [assembly="134513672: PUSH EBP\n134513673: MOV EBP,ESP\n134513675: SUB ESP,0x14\n134513678: CMP dword ptr [EBP + -0x4],0x0\n134513682: JLE 0x08048421\n", function=main];\
+        bb_8048414 [assembly="134513684: MOV EAX,dword ptr [EBP + -0x4]\n134513687: MOV dword ptr [ESP],EAX\n134513690: CALL 0x080483ed\n", function=main];\
+        bb_804841f [assembly="134513695: JMP 0x0804842d\n", function=main];\
+        bb_8048421 [assembly="134513697: MOV dword ptr [ESP],0x0\n134513704: CALL 0x080483ed\n", function=main];\
+        bb_804842d [assembly="134513709: LEAVE\n134513710: RET\n", function=main];\
+        bb_80483ed -> bb_80483ff  [flowType="Conditional Jump"];\
+        bb_80483ed -> bb_80483f6  [flowType=Fall];\
+        bb_80483f6 -> bb_8048406  [flowType=Jump];\
+        bb_80483ff -> bb_8048406  [flowType=Fall];\
+        bb_8048406 -> bb_804842d  [flowType=ret];\
+        bb_8048406 -> bb_804841f  [flowType=ret];\
+        bb_8048408 -> bb_8048421  [flowType="Conditional Jump"];\
+        bb_8048408 -> bb_8048414  [flowType=Fall];\
+        bb_8048414 -> bb_80483ed  [flowType=Call];\
+        bb_8048414 -> bb_804841f  [flowType=Fall];\
+        bb_804841f -> bb_804842d  [flowType=Jump];\
+        bb_8048421 -> bb_80483ed  [flowType=Call];\
+        bb_8048421 -> bb_804842d  [flowType=Fall];\
+        }';
+    } else if (parameter == "ais3_cfg_id_0") {
+      dot =
+        'strict digraph  {\
+        bb_4003f0 [assembly="4195312: JMP qword ptr [0x00601000]\n", function=puts];\
+        bb_400520 [assembly="4195616: PUSH RBP\n4195617: MOV RBP,RSP\n4195620: MOV qword ptr [RBP + -0x18],RDI\n4195624: MOV dword ptr [RBP + -0x4],0x0\n4195631: JMP 0x004005a1\n", function=verify];\
+        bb_400531 [assembly="4195633: MOV EAX,dword ptr [RBP + -0x4]\n4195636: MOVSXD RDX,EAX\n4195639: MOV RAX,qword ptr [RBP + -0x18]\n4195643: ADD RAX,RDX\n4195646: MOVZX EAX,byte ptr [RAX]\n4195649: MOV EDX,EAX\n4195651: MOV EAX,dword ptr [RBP + -0x4]\n4195654: XOR EAX,EDX\n4195656: MOV byte ptr [RBP + -0x5],AL\n4195659: MOVZX EDX,byte ptr [RBP + -0x5]\n4195663: MOV EAX,dword ptr [RBP + -0x4]\n4195666: XOR EAX,0x9\n4195669: AND EAX,0x3\n4195672: MOV ECX,EAX\n4195674: SHL EDX,CL\n4195676: MOV EAX,EDX\n4195678: MOV EDX,EAX\n4195680: MOVZX ESI,byte ptr [RBP + -0x5]\n4195684: MOV EAX,dword ptr [RBP + -0x4]\n4195687: XOR EAX,0x9\n4195690: AND EAX,0x3\n4195693: MOV ECX,EAX\n4195695: MOV EAX,0x8\n4195700: SUB EAX,ECX\n4195702: MOV ECX,EAX\n4195704: SAR ESI,CL\n4195706: MOV EAX,ESI\n4195708: OR EAX,EDX\n4195710: MOV byte ptr [RBP + -0x5],AL\n4195713: ADD byte ptr [RBP + -0x5],0x8\n4195717: MOV EAX,dword ptr [RBP + -0x4]\n4195720: CDQE\n4195722: MOVZX EAX,byte ptr [RAX + 0x601020]\n4195729: CMP AL,byte ptr [RBP + -0x5]\n4195732: JZ 0x0040059d\n", function=verify];\
+        bb_400596 [assembly="4195734: MOV EAX,0x0\n4195739: JMP 0x004005c3\n", function=verify];\
+        bb_40059d [assembly="4195741: ADD dword ptr [RBP + -0x4],0x1\n", function=verify];\
+        bb_4005a1 [assembly="4195745: MOV EAX,dword ptr [RBP + -0x4]\n4195748: MOVSXD RDX,EAX\n4195751: MOV RAX,qword ptr [RBP + -0x18]\n4195755: ADD RAX,RDX\n4195758: MOVZX EAX,byte ptr [RAX]\n4195761: TEST AL,AL\n4195763: JNZ 0x00400531\n", function=verify];\
+        bb_4005b9 [assembly="4195769: CMP dword ptr [RBP + -0x4],0x17\n4195773: SETZ AL\n4195776: MOVZX EAX,AL\n", function=verify];\
+        bb_4005c3 [assembly="4195779: POP RBP\n4195780: RET\n", function=verify];\
+        bb_4005c5 [assembly="4195781: PUSH RBP\n4195782: MOV RBP,RSP\n4195785: SUB RSP,0x10\n4195789: MOV dword ptr [RBP + -0x4],EDI\n4195792: MOV qword ptr [RBP + -0x10],RSI\n4195796: CMP dword ptr [RBP + -0x4],0x2\n4195800: JZ 0x004005eb\n", function=main];\
+        bb_4005da [assembly="4195802: MOV EDI,0x4006c8\n4195807: CALL 0x004003f0\n", function=main];\
+        bb_4005e4 [assembly="4195812: MOV EAX,0xffffffff\n4195817: JMP 0x0040061d\n", function=main];\
+        bb_4005eb [assembly="4195819: MOV RAX,qword ptr [RBP + -0x10]\n4195823: ADD RAX,0x8\n4195827: MOV RAX,qword ptr [RAX]\n4195830: MOV RDI,RAX\n4195833: CALL 0x00400520\n", function=main];\
+        bb_4005fe [assembly="4195838: TEST EAX,EAX\n4195840: JZ 0x0040060e\n", function=main];\
+        bb_400602 [assembly="4195842: MOV EDI,0x4006f0\n4195847: CALL 0x004003f0\n", function=main];\
+        bb_40060c [assembly="4195852: JMP 0x00400618\n", function=main];\
+        bb_40060e [assembly="4195854: MOV EDI,0x400718\n4195859: CALL 0x004003f0\n", function=main];\
+        bb_400618 [assembly="4195864: MOV EAX,0x0\n", function=main];\
+        bb_40061d [assembly="4195869: LEAVE\n4195870: RET\n", function=main];\
+        bb_4003f0 -> bb_40060c  [flowType=ret];\
+        bb_4003f0 -> bb_400618  [flowType=ret];\
+        bb_4003f0 -> bb_4005e4  [flowType=ret];\
+        bb_400520 -> bb_4005a1  [flowType=Jump];\
+        bb_400531 -> bb_40059d  [flowType="Conditional Jump"];\
+        bb_400531 -> bb_400596  [flowType=Fall];\
+        bb_400596 -> bb_4005c3  [flowType=Jump];\
+        bb_40059d -> bb_4005a1  [flowType=Fall];\
+        bb_4005a1 -> bb_400531  [flowType="Conditional Jump"];\
+        bb_4005a1 -> bb_4005b9  [flowType=Fall];\
+        bb_4005b9 -> bb_4005c3  [flowType=Fall];\
+        bb_4005c3 -> bb_4005fe  [flowType=ret];\
+        bb_4005c5 -> bb_4005eb  [flowType="Conditional Jump"];\
+        bb_4005c5 -> bb_4005da  [flowType=Fall];\
+        bb_4005da -> bb_4003f0  [flowType=Call];\
+        bb_4005da -> bb_4005e4  [flowType=Fall];\
+        bb_4005e4 -> bb_40061d  [flowType=Jump];\
+        bb_4005eb -> bb_400520  [flowType=Call];\
+        bb_4005eb -> bb_4005fe  [flowType=Fall];\
+        bb_4005fe -> bb_40060e  [flowType="Conditional Jump"];\
+        bb_4005fe -> bb_400602  [flowType=Fall];\
+        bb_400602 -> bb_4003f0  [flowType=Call];\
+        bb_400602 -> bb_40060c  [flowType=Fall];\
+        bb_40060c -> bb_400618  [flowType=Jump];\
+        bb_40060e -> bb_4003f0  [flowType=Call];\
+        bb_40060e -> bb_400618  [flowType=Fall];\
+        bb_400618 -> bb_40061d  [flowType=Fall];\
+        }';
+    }
+
+    return { cfg_id: parameter, dot: dot };
+  }
+}
+
 // load the binaries we have and make it a list
-function loadList() {
+function loadList(data) {
   var myList = document.getElementById("myList");
 
-  for (i = 0; i < 30; i++) {
+  for (i = 0; i < data.function.length; i++) {
     const newLi = document.createElement("a");
-    newLi.innerHTML = "New List Item " + i;
+    newLi.innerHTML = data.function[i].name;
     newLi.className = "list-group-item";
-    newLi.href = "cfg.html";
+
+    var temp = window.location.toString().split("=");
+    newLi.href = temp[0] + "=" + temp[1] + "=" + data.function[i].cfg_id;
 
     newLi.onmouseover = function () {
       this.className = "list-group-item active";
@@ -144,12 +269,8 @@ function drawDot(digraph, nodeList, edgeList) {
   // change edge color according to flowtype
   g.edges().forEach(function (e) {
     var flow = getFlowtype(e.v, e.w, edgeList);
-    /*g.setEdge(e.v, e.w, {
-      label: flow.label,
-      style: `stroke: ${flow.color}; stroke-width: 1.5px; fill: #fff;`,
-      arrowheadStyle: `stroke: ${flow.color}; fill: ${flow.color};`,
-    });*/
     g.setEdge(e.v, e.w, {
+      //label: flow.label,
       style: `stroke: ${flow.color}; stroke-width: 1.5px; fill: #fff;`,
       arrowheadStyle: `stroke: ${flow.color}; fill: ${flow.color};`,
     });
@@ -165,8 +286,6 @@ function drawDot(digraph, nodeList, edgeList) {
   svg.style.width = bbox.width + 40.0 + "px";
   svg.style.height = bbox.height + 40.0 + "px";
 
-  var edges = document.querySelectorAll(".edgePath");
-
   // Show node's name when mouse hover
   var nodes = document.querySelectorAll(".node");
 
@@ -175,6 +294,14 @@ function drawDot(digraph, nodeList, edgeList) {
   rects.forEach(function (rect) {
     rect.setAttribute("rx", 10);
     rect.setAttribute("ry", 10);
+  });
+
+  // get mouse position
+  var mouseX = 0;
+  var mouseY = 0;
+  document.addEventListener("mousemove", function (event) {
+    mouseX = event.clientX + window.pageXOffset;
+    mouseY = event.clientY + window.pageYOffset;
   });
 
   nodes.forEach(function (node) {
@@ -190,13 +317,6 @@ function drawDot(digraph, nodeList, edgeList) {
     var sub = createADWindow(parent, nodeName, top, left, assembly);
 
     // change visibility according to mouse's position
-    var mouseX = 0;
-    var mouseY = 0;
-    document.addEventListener("mousemove", function (event) {
-      mouseX = event.clientX + window.pageXOffset;
-      mouseY = event.clientY + window.pageYOffset;
-    });
-
     var subRect = sub.getBoundingClientRect();
 
     node.onmouseover = function () {
@@ -240,21 +360,6 @@ function getFlowtype(node1, node2, edgeList) {
         color: colorMap[edgeList[i].flowType],
       };
   }
-  /*
-  edgeList.forEach(function (edge) {
-    if (edge.node1 == node1 && edge.node2 == node2) {
-      console.log(`${node1}, ${node2}, ${edge.flowType}`);
-
-      var result = {
-        label: edge.flowType,
-        style: `stroke: ${colorMap[edge.flowType]};\
-        stroke-width: 1.5px;\
-        fill: ${colorMap[edge.flowType]}`,
-      };
-
-      return colorMap[edge.flowType];
-    }
-  });*/
 }
 
 // Intent: Find the corresponding assembly for the node
@@ -303,12 +408,3 @@ const createADWindow = (parent, id, top, left, information) => {
 
   return mainDiv;
 };
-
-// Intent: remove the subwindow to hide information when not hovering the node
-// Parameter: None
-// Return: None
-function hide_info(id) {
-  if (document.getElementById(id)) {
-    document.getElementById(id).remove();
-  }
-}
