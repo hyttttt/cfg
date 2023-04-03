@@ -1,6 +1,6 @@
 // edge color scheme
 var colorMap = {
-  'Conditional Jump': "#E05E66",
+  "Conditional Jump": "#E05E66",
   Jump: "#FFB04B",
   Call: "#65B773",
   Fall: "#5EB6E0",
@@ -8,15 +8,24 @@ var colorMap = {
 };
 
 window.onload = function () {
-  var path=window.location.pathname.split('/');
-  var hash=path[path.length-1];
+  var path = window.location.pathname.split("/");
+  var hash = path[path.length - 1];
 
   // load the function list
   var cfg_list = mockApi("GET", "/binary", hash);
   loadList(cfg_list);
 
+  refreshDot(cfg_list.function[0].cfg_id);
+
+  drawColorPattern("colors", "colorMeaning");
+};
+
+// Intent: Refresh dot graph with the cfg_id
+// Parameter: cfg_id (string)
+// Return: None
+function refreshDot(cfg_id) {
   // parsing raw dot file
-  var raw=mockApi("GET","/cfg",cfg_list.function[0].cfg_id);
+  var raw = mockApi("GET", "/cfg", cfg_id);
   var mydot = parseDot(raw.dot);
   var digraph = mydot.digraph;
   var nodeList = mydot.nodeList;
@@ -24,8 +33,7 @@ window.onload = function () {
 
   // draw the graph according to dot file
   drawDot(digraph, nodeList, edgeList);
-  drawColorPattern("colors", "colorMeaning");
-};
+}
 
 // Intent: Draw the color pattern
 // Parameter: color div's id (string), color meaning div's id (string)
@@ -218,8 +226,11 @@ function loadList(data) {
     newLi.innerHTML = data.function[i].name;
     newLi.className = "list-group-item";
 
-    var temp = window.location.toString().split("=");
-    newLi.href = temp[0] + "=" + temp[1] + "=" + data.function[i].cfg_id;
+    //var temp = window.location.toString().split("=");
+    //newLi.href = temp[0] + "=" + temp[1] + "=" + data.function[i].cfg_id;
+    newLi.onclick = function () {
+      refreshDot(data.function[i].cfg_id);
+    };
 
     newLi.onmouseover = function () {
       this.className = "list-group-item active";
@@ -382,7 +393,7 @@ function getFlowtype(node1, node2, edgeList) {
     if (edgeList[i].node1 == node1 && edgeList[i].node2 == node2)
       return {
         label: edgeList[i].flowType,
-        color: colorMap[edgeList[i].flowType.replaceAll('"','')],
+        color: colorMap[edgeList[i].flowType.replaceAll('"', "")],
       };
   }
 }
