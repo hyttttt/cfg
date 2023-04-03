@@ -46,7 +46,6 @@ svg {
 .edgePath {
   stroke: #333;
   stroke-width: 1.5px;
-  fill: #333;
 }
 
 .draw {

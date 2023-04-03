@@ -1,10 +1,10 @@
 // edge color scheme
 var colorMap = {
-  '"Conditional Jump"': "#FFB04B",
-  Jump: "#E05E66",
+  '"Conditional Jump"': "#E05E66",
+  Jump: "#FFB04B",
   Call: "#65B773",
-  ret: "#AB74F7",
   Fall: "#5EB6E0",
+  ret: "#AB74F7",
 };
 
 window.onload = function () {
@@ -311,7 +311,7 @@ function drawDot(digraph, nodeList, edgeList) {
     var flow = getFlowtype(e.v, e.w, edgeList);
     g.setEdge(e.v, e.w, {
       //label: flow.label,
-      style: `stroke: ${flow.color}; stroke-width: 2px; fill: #fff;`,
+      style: `stroke: ${flow.color}; stroke-width: 2px; fill:none;`,
       arrowheadStyle: `stroke: ${flow.color}; fill: ${flow.color};`,
     });
   });
