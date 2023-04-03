@@ -1,34 +1,22 @@
 // edge color scheme
 var colorMap = {
-  '"Conditional Jump"': "#E05E66",
+  'Conditional Jump': "#E05E66",
   Jump: "#FFB04B",
   Call: "#65B773",
   Fall: "#5EB6E0",
-  ret: "#AB74F7",
+  Return: "#AB74F7",
 };
 
 window.onload = function () {
-  // get query string on URL
-  var queryString = window.location.search.substring(1);
-
-  // Extract query string into object
-  var data = {};
-  queryString.split("&").forEach(function (item) {
-    var pair = item.split("=");
-    data[pair[0]] = decodeURIComponent(pair[1]);
-  });
+  var path=window.location.pathname.split('/');
+  var hash=path[path.length-1];
 
   // load the function list
-  var cfg_list = mockApi("GET", "/binary", data.hash);
+  var cfg_list = mockApi("GET", "/binary", hash);
   loadList(cfg_list);
 
   // parsing raw dot file
-  var raw;
-  if (data.cfg_id == "none") {
-    raw = mockApi("GET", "/cfg", cfg_list.function[0].cfg_id);
-  } else {
-    raw = mockApi("GET", "/cfg", data.cfg_id);
-  }
+  var raw=mockApi("GET","/cfg",cfg_list.function[0].cfg_id);
   var mydot = parseDot(raw.dot);
   var digraph = mydot.digraph;
   var nodeList = mydot.nodeList;
@@ -151,8 +139,8 @@ function mockApi(method, router, parameter) {
         bb_80483ed -> bb_80483f6  [flowType=Fall];\
         bb_80483f6 -> bb_8048406  [flowType=Jump];\
         bb_80483ff -> bb_8048406  [flowType=Fall];\
-        bb_8048406 -> bb_804842d  [flowType=ret];\
-        bb_8048406 -> bb_804841f  [flowType=ret];\
+        bb_8048406 -> bb_804842d  [flowType=Return];\
+        bb_8048406 -> bb_804841f  [flowType=Return];\
         bb_8048408 -> bb_8048421  [flowType="Conditional Jump"];\
         bb_8048408 -> bb_8048414  [flowType=Fall];\
         bb_8048414 -> bb_80483ed  [flowType=Call];\
@@ -182,9 +170,9 @@ function mockApi(method, router, parameter) {
         bb_40060e [assembly="4195854: MOV EDI,0x400718\n4195859: CALL 0x004003f0\n", function=main];\
         bb_400618 [assembly="4195864: MOV EAX,0x0\n", function=main];\
         bb_40061d [assembly="4195869: LEAVE\n4195870: RET\n", function=main];\
-        bb_4003f0 -> bb_40060c  [flowType=ret];\
-        bb_4003f0 -> bb_400618  [flowType=ret];\
-        bb_4003f0 -> bb_4005e4  [flowType=ret];\
+        bb_4003f0 -> bb_40060c  [flowType=Return];\
+        bb_4003f0 -> bb_400618  [flowType=Return];\
+        bb_4003f0 -> bb_4005e4  [flowType=Return];\
         bb_400520 -> bb_4005a1  [flowType=Jump];\
         bb_400531 -> bb_40059d  [flowType="Conditional Jump"];\
         bb_400531 -> bb_400596  [flowType=Fall];\
@@ -193,7 +181,7 @@ function mockApi(method, router, parameter) {
         bb_4005a1 -> bb_400531  [flowType="Conditional Jump"];\
         bb_4005a1 -> bb_4005b9  [flowType=Fall];\
         bb_4005b9 -> bb_4005c3  [flowType=Fall];\
-        bb_4005c3 -> bb_4005fe  [flowType=ret];\
+        bb_4005c3 -> bb_4005fe  [flowType=Return];\
         bb_4005c5 -> bb_4005eb  [flowType="Conditional Jump"];\
         bb_4005c5 -> bb_4005da  [flowType=Fall];\
         bb_4005da -> bb_4003f0  [flowType=Call];\
@@ -389,7 +377,7 @@ function getFlowtype(node1, node2, edgeList) {
     if (edgeList[i].node1 == node1 && edgeList[i].node2 == node2)
       return {
         label: edgeList[i].flowType,
-        color: colorMap[edgeList[i].flowType],
+        color: colorMap[edgeList[i].flowType.replaceAll('"','')],
       };
   }
 }

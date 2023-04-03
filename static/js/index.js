@@ -38,15 +38,8 @@ function uploadFile(file) {
   // get hash to find the cfg_ids & function names
   var hash = mockApi("POST", "/binary", "");
 
-  // transform data into query string format
-  var queryString = Object.keys(hash)
-    .map(function (key) {
-      return key + "=" + encodeURIComponent(hash[key]);
-    })
-    .join("&");
-
   // redirect to cfg page and bring data along
-  window.location.href = "cfg.html?" + queryString + "&cfg_id=none";
+  window.location.href = "binary/" + hash['hash'];
 }
 
 // load the binaries we have and make it a list
@@ -57,7 +50,7 @@ function loadList(list) {
     const newLi = document.createElement("a");
     newLi.innerHTML = list.hash_list[i];
     newLi.className = "list-group-item";
-    newLi.href = "cfg.html?hash=" + list.hash_list[i] + "&cfg_id=none";
+    newLi.href = "binary/" + list.hash_list[i];
 
     newLi.onmouseover = function () {
       this.className = "list-group-item active";
