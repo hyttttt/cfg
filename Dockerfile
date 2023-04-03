@@ -11,12 +11,15 @@ RUN mkdir "upload" \
     && gradle --no-daemon -PGHIDRA_INSTALL_DIR="/home/gradle/ghidra_10.2.3_PUBLIC" \
     && cd "/home/gradle/ghidra_10.2.3_PUBLIC/Ghidra/Extensions" \
     && unzip "/home/gradle/Ghidrathon-2.0.1/dist/ghidra_10.2.3_PUBLIC_$(date '+%Y%m%d')_Ghidrathon-2.0.1"
-COPY ./requirements.txt .
-RUN pip3 install -r requirements.txt
+COPY ./requirements.txt ./src/
+RUN pip3 install -r ./src/requirements.txt
 
 FROM golang:1.20.2-alpine3.17 AS builder
-COPY . ./src
 WORKDIR ./src
+COPY ./go.mod .
+COPY ./go.sum .
+RUN go mod download
+COPY . /go/src
 RUN go build ./main.go
 
 FROM base
