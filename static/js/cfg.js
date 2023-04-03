@@ -31,6 +31,12 @@ function refreshDot(cfg_id) {
   var nodeList = mydot.nodeList;
   var edgeList = mydot.edgeList;
 
+  // clear old assembly div
+  for (i = 0; i < nodeList.length; i++) {
+    const assDiv = document.getElementById(nodeList[i].node);
+    if (assDiv) assDiv.remove();
+  }
+
   // draw the graph according to dot file
   drawDot(digraph, nodeList, edgeList);
 }
