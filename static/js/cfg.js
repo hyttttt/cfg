@@ -46,8 +46,6 @@ function drawColorPattern(parentId_color, parentId_meaning) {
   var meaningContainer = document.getElementById(parentId_meaning);
 
   for (const [key, value] of Object.entries(colorMap)) {
-    console.log("key: " + key + ", value: " + value);
-
     // color patterns
     var rect = document.createElement("div");
     rect.style.width = size + "px";
@@ -226,18 +224,20 @@ function loadList(data) {
     newLi.innerHTML = data.function[i].name;
     newLi.className = "list-group-item";
 
-    //var temp = window.location.toString().split("=");
-    //newLi.href = temp[0] + "=" + temp[1] + "=" + data.function[i].cfg_id;
-    newLi.onclick = function () {
-      refreshDot(data.function[i].cfg_id);
-    };
+    (function (id) {
+      newLi.onclick = function () {
+        refreshDot(id);
+      };
+    })(data.function[i].cfg_id);
 
     newLi.onmouseover = function () {
       this.className = "list-group-item active";
+      this.style.cssText += "cursor: pointer;";
     };
 
     newLi.onmouseout = function () {
       this.className = "list-group-item";
+      this.style.cssText += "cursor: default;";
     };
 
     myList.appendChild(newLi);
