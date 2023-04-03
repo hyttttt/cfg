@@ -40,19 +40,18 @@ func Dot(c *gin.Context) {
 func AnalyzeBinary(c *gin.Context) {
 	uploadFile, _ := c.FormFile("file")
 	log.Println(uploadFile.Filename)
-	c.SaveUploadedFile(uploadFile, "/home/gradle/upload/"+uploadFile.Filename)
-	file, _ := os.Open("/home/gradle/upload/" + uploadFile.Filename)
+	uploadFilePath := "/home/gradle/upload/" + uploadFile.Filename
+	c.SaveUploadedFile(uploadFile, uploadFilePath)
+	file, _ := os.Open(uploadFilePath)
 	hash := md5.New()
 	_, err := io.Copy(hash, file)
 	if err != nil {
 		log.Fatalf("%s\n", err)
 	}
 	file.Close()
-	os.Remove("/home/gradle/upload/" + uploadFile.Filename)
-	/*cmd := exec.Command("../ghidra_10.2.3_PUBLIC/support/analyzeHeadless", "/home/gradle/", "tmp", "-preScript", "test.py")
-	err := cmd.Run()
-	if err != nil {
-		log.Fatalf("cmd.Run() failed with %s\n", err)
-	}*/
-	c.JSON(http.StatusOK, gin.H{"hash": hash.Sum(nil)})
+	services.AnalyzeHeadless("cfg_entry.py", uploadFilePath)
+	os.Remove(uploadFilePath)
+	content, _ := os.ReadFile("/home/gradle/tmp/entry.dot")
+	os.Remove("/home/gradle/tmp/entry.dot")
+	c.JSON(http.StatusOK, gin.H{"hash": hash.Sum(nil), "dot": string(content)})
 }
