@@ -42,6 +42,7 @@ func AnalyzeBinary(c *gin.Context) {
 	log.Println(uploadFile.Filename)
 	uploadFilePath := "/home/gradle/upload/" + uploadFile.Filename
 	c.SaveUploadedFile(uploadFile, uploadFilePath)
+	defer os.Remove(uploadFilePath)
 	file, _ := os.Open(uploadFilePath)
 	hash := md5.New()
 	_, err := io.Copy(hash, file)
@@ -49,9 +50,13 @@ func AnalyzeBinary(c *gin.Context) {
 		log.Fatalf("%s\n", err)
 	}
 	file.Close()
-	services.AnalyzeHeadless("cfg_entry.py", uploadFilePath)
-	os.Remove(uploadFilePath)
-	content, _ := os.ReadFile("/home/gradle/tmp/entry.dot")
-	os.Remove("/home/gradle/tmp/entry.dot")
-	c.JSON(http.StatusOK, gin.H{"hash": hash.Sum(nil), "dot": string(content)})
+	services.AnalyzeHeadless("cfg.py", uploadFilePath)
+	dir, _ := os.ReadDir("/home/gradle/tmp/")
+	for _, file := range dir {
+		defer os.Remove("/home/gradle/tmp/" + file.Name())
+		content, _ := os.ReadFile("/home/gradle/tmp/" + file.Name())
+		log.Println(file.Name())
+		log.Println(string(content))
+	}
+	c.JSON(http.StatusOK, gin.H{"hash": hash.Sum(nil)})
 }
