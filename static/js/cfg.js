@@ -1,6 +1,6 @@
 // edge color scheme
 var colorMap = {
-  'Conditional Jump': "#E05E66",
+  "Conditional Jump": "#E05E66",
   Jump: "#FFB04B",
   Call: "#65B773",
   Fall: "#5EB6E0",
@@ -8,24 +8,38 @@ var colorMap = {
 };
 
 window.onload = function () {
-  var path=window.location.pathname.split('/');
-  var hash=path[path.length-1];
+  var path = window.location.pathname.split("/");
+  var hash = path[path.length - 1];
 
   // load the function list
   var cfg_list = mockApi("GET", "/binary", hash);
   loadList(cfg_list);
 
+  refreshDot(cfg_list.function[0].cfg_id);
+
+  drawColorPattern("colors", "colorMeaning");
+};
+
+// Intent: Refresh dot graph with the cfg_id
+// Parameter: cfg_id (string)
+// Return: None
+function refreshDot(cfg_id) {
   // parsing raw dot file
-  var raw=mockApi("GET","/cfg",cfg_list.function[0].cfg_id);
+  var raw = mockApi("GET", "/cfg", cfg_id);
   var mydot = parseDot(raw.dot);
   var digraph = mydot.digraph;
   var nodeList = mydot.nodeList;
   var edgeList = mydot.edgeList;
 
+  // clear old assembly div
+  for (i = 0; i < nodeList.length; i++) {
+    const assDiv = document.getElementById(nodeList[i].node);
+    if (assDiv) assDiv.remove();
+  }
+
   // draw the graph according to dot file
   drawDot(digraph, nodeList, edgeList);
-  drawColorPattern("colors", "colorMeaning");
-};
+}
 
 // Intent: Draw the color pattern
 // Parameter: color div's id (string), color meaning div's id (string)
@@ -38,8 +52,6 @@ function drawColorPattern(parentId_color, parentId_meaning) {
   var meaningContainer = document.getElementById(parentId_meaning);
 
   for (const [key, value] of Object.entries(colorMap)) {
-    console.log("key: " + key + ", value: " + value);
-
     // color patterns
     var rect = document.createElement("div");
     rect.style.width = size + "px";
@@ -218,15 +230,20 @@ function loadList(data) {
     newLi.innerHTML = data.function[i].name;
     newLi.className = "list-group-item";
 
-    var temp = window.location.toString().split("=");
-    newLi.href = temp[0] + "=" + temp[1] + "=" + data.function[i].cfg_id;
+    (function (id) {
+      newLi.onclick = function () {
+        refreshDot(id);
+      };
+    })(data.function[i].cfg_id);
 
     newLi.onmouseover = function () {
       this.className = "list-group-item active";
+      this.style.cssText += "cursor: pointer;";
     };
 
     newLi.onmouseout = function () {
       this.className = "list-group-item";
+      this.style.cssText += "cursor: default;";
     };
 
     myList.appendChild(newLi);
@@ -382,7 +399,7 @@ function getFlowtype(node1, node2, edgeList) {
     if (edgeList[i].node1 == node1 && edgeList[i].node2 == node2)
       return {
         label: edgeList[i].flowType,
-        color: colorMap[edgeList[i].flowType.replaceAll('"','')],
+        color: colorMap[edgeList[i].flowType.replaceAll('"', "")],
       };
   }
 }
