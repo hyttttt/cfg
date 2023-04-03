@@ -139,7 +139,7 @@ def addCallSuccessors(called_address, G):
         bb_address = bbModel.getFirstCodeBlockContaining(ret_address, monitor).getFirstStartAddress().getOffset()
         for called_func in called_list:
             after_called_address = listing.getCodeUnitAfter(called_func).getAddress().getOffset()
-            G.add_edge('bb_%x' % (bb_address), 'bb_%x' % (after_called_address), flowType='ret')
+            G.add_edge('bb_%x' % (bb_address), 'bb_%x' % (after_called_address), flowType='Return')
 
 
 def dumpBlocks():
