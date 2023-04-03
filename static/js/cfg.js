@@ -39,6 +39,9 @@ window.onload = function () {
   drawColorPattern("colors", "colorMeaning");
 };
 
+// Intent: Draw the color pattern
+// Parameter: color div's id (string), color meaning div's id (string)
+// Return: None
 function drawColorPattern(parentId_color, parentId_meaning) {
   var size = 15;
 
@@ -216,7 +219,9 @@ function mockApi(method, router, parameter) {
   }
 }
 
-// load the binaries we have and make it a list
+// Intent: load the entry points we have and make it a list
+// Parameter: A cfg id json, containing {hash: hash of the binary, function: an array of {cfg_id: cfg unique id of function, name: name of function}}
+// Return: None
 function loadList(data) {
   var myList = document.getElementById("myList");
 
@@ -242,7 +247,7 @@ function loadList(data) {
 
 // Intent: parsing raw dot file
 // Parameter: A raw dot file (string)
-// Return: A parsed dot file json, containing {clean dot, node list, edge list}
+// Return: A parsed dot file json, containing {digraph: clean dot string, nodeList: array of nodes, edgeList: array of edges}
 function parseDot(raw) {
   var digraph = "digraph  {";
   var nodeList = [];
