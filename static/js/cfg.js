@@ -271,7 +271,7 @@ function drawDot(digraph, nodeList, edgeList) {
     var flow = getFlowtype(e.v, e.w, edgeList);
     g.setEdge(e.v, e.w, {
       //label: flow.label,
-      style: `stroke: ${flow.color}; stroke-width: 1.5px; fill: #fff;`,
+      style: `stroke: ${flow.color}; stroke-width: 2px; fill: #fff;`,
       arrowheadStyle: `stroke: ${flow.color}; fill: ${flow.color};`,
     });
   });
