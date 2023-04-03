@@ -10,6 +10,23 @@ svg {
   font-family: "Noto Sans";
 }
 
+#colorPattern {
+  border: 2px solid rgb(198, 197, 197);
+  border-radius: 10px;
+  margin: 20px;
+  padding: 10px;
+  display: flex;
+}
+
+#colors {
+  width: 15%;
+}
+
+#colorMeaning {
+  width: 85%;
+  font-size: 15px;
+}
+
 #myList {
   margin: 20px;
   height: 400px;

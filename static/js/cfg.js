@@ -1,3 +1,12 @@
+// edge color scheme
+var colorMap = {
+  '"Conditional Jump"': "#FFB04B",
+  Jump: "#E05E66",
+  Call: "#65B773",
+  ret: "#AB74F7",
+  Fall: "#5EB6E0",
+};
+
 window.onload = function () {
   // get query string on URL
   var queryString = window.location.search.substring(1);
@@ -27,7 +36,38 @@ window.onload = function () {
 
   // draw the graph according to dot file
   drawDot(digraph, nodeList, edgeList);
+  drawColorPattern("colors", "colorMeaning");
 };
+
+function drawColorPattern(parentId_color, parentId_meaning) {
+  var size = 15;
+
+  // get parent containers
+  var colorContainer = document.getElementById(parentId_color);
+  var meaningContainer = document.getElementById(parentId_meaning);
+
+  for (const [key, value] of Object.entries(colorMap)) {
+    console.log("key: " + key + ", value: " + value);
+
+    // color patterns
+    var rect = document.createElement("div");
+    rect.style.width = size + "px";
+    rect.style.height = size + "px";
+    rect.style.backgroundColor = value;
+    rect.style.margin = "11px";
+
+    colorContainer.appendChild(rect);
+
+    // meanings
+    rect = document.createElement("div");
+    rect.style.width = "auto";
+    rect.style.height = size + "px";
+    rect.innerHTML = key;
+    rect.style.margin = "10px 0px";
+
+    meaningContainer.append(rect);
+  }
+}
 
 function mockApi(method, router, parameter) {
   // return a list of cfg_id and corresponding function name
@@ -345,14 +385,6 @@ function drawDot(digraph, nodeList, edgeList) {
 // Parameter: node name 1 (string), node name 2 (string), edge List (array)
 // Return: A json containing edge style
 function getFlowtype(node1, node2, edgeList) {
-  var colorMap = {
-    '"Conditional Jump"': "#FFB04B",
-    Jump: "#E05E66",
-    Call: "#3FFA63",
-    ret: "#AB74F7",
-    Fall: "#5EB6E0",
-  };
-
   for (i = 0; i < edgeList.length; i++) {
     if (edgeList[i].node1 == node1 && edgeList[i].node2 == node2)
       return {
