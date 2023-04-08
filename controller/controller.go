@@ -11,15 +11,11 @@ import (
 )
 
 func HomePage(c *gin.Context) {
-	c.HTML(http.StatusOK, "index.html", gin.H{
-		"title": "CFG Viewer",
-	})
+	c.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
 func CFGPage(c *gin.Context) {
-	c.HTML(http.StatusOK, "cfg.html", gin.H{
-		"title": c.Param("hash"),
-	})
+	c.HTML(http.StatusOK, "cfg.html", gin.H{})
 }
 
 func Hash(c *gin.Context) {
