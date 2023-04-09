@@ -2,7 +2,8 @@ package controller
 
 import (
 	"cfg/services"
-	"crypto/md5"
+	"crypto/sha256"
+	"encoding/hex"
 	"github.com/gin-gonic/gin"
 	"io"
 	"log"
@@ -38,19 +39,23 @@ func AnalyzeBinary(c *gin.Context) {
 	log.Println(uploadFile.Filename)
 	uploadFilePath := "/home/gradle/upload/" + uploadFile.Filename
 	c.SaveUploadedFile(uploadFile, uploadFilePath)
-	defer os.Remove(uploadFilePath)
 	file, _ := os.Open(uploadFilePath)
-	hash := md5.New()
+	hash := sha256.New()
 	_, err := io.Copy(hash, file)
 	if err != nil {
 		log.Fatalf("%s\n", err)
 	}
 	file.Close()
+	hashString := hex.EncodeToString(hash.Sum(nil))
+	os.Rename(uploadFilePath, "/home/gradle/upload/"+hashString)
+	uploadFilePath = "/home/gradle/upload/" + hashString
+	defer os.Remove(uploadFilePath)
 	services.AnalyzeHeadless("cfg.py", uploadFilePath)
-	dir, _ := os.ReadDir("/home/gradle/tmp/")
+	dir, _ := os.ReadDir("/home/gradle/tmp/" + hashString)
+	defer os.RemoveAll("/home/gradle/tmp/" + hashString)
 	for _, file := range dir {
-		defer os.Remove("/home/gradle/tmp/" + file.Name())
-		content, _ := os.ReadFile("/home/gradle/tmp/" + file.Name())
+		// defer os.Remove("/home/gradle/tmp/" + string(hash.Sum(nil)) + file.Name())
+		content, _ := os.ReadFile("/home/gradle/tmp/" + hashString + "/" + file.Name())
 		log.Println(file.Name())
 		log.Println(string(content))
 	}
