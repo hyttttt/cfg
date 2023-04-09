@@ -212,7 +212,7 @@ def dumpEntryBlocks():
     addCallSuccessors(called_address, G)
     if not os.path.isdir(f'/home/gradle/tmp/'):
         os.mkdir(f'/home/gradle/tmp/')
-    write_dot(G,f"/home/gradle/tmp/entry.dot")
+    write_dot(G,f"/home/gradle/tmp/$entry.dot")
 
 def findCalls(functionCalls):
     functionManager = currentProgram.getFunctionManager()
@@ -259,7 +259,7 @@ def dumpWholeBlocks():
     addCallSuccessors(called_address, G)
     if not os.path.isdir(f'/home/gradle/tmp/'):
        os.mkdir(f'/home/gradle/tmp/')
-    write_dot(G,f"/home/gradle/tmp/whole.dot")
+    write_dot(G,f"/home/gradle/tmp/$whole.dot")
 
 import time
 
