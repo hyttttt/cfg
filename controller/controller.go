@@ -59,5 +59,5 @@ func AnalyzeBinary(c *gin.Context) {
 		log.Println(file.Name())
 		log.Println(string(content))
 	}
-	c.JSON(http.StatusOK, gin.H{"hash": hash.Sum(nil)})
+	c.JSON(http.StatusOK, gin.H{"hash": hashString})
 }
