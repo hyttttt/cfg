@@ -33,7 +33,7 @@ func NewMongoDBClient(uri string) *MongoDBClient {
 	return &MongoDBClient{client, ctx, cancel}
 }
 
-func (mongoClient *MongoDBClient) FindOne(databaseName string, collectionName string, filter bson.D) *models.Binary {
+func (mongoClient *MongoDBClient) FindBinary(databaseName string, collectionName string, filter bson.D) *models.Binary {
 	collection := mongoClient.client.Database(databaseName).Collection(collectionName)
 	var result *models.Binary
 	err := collection.FindOne(mongoClient.ctx, filter).Decode(&result)
@@ -44,7 +44,7 @@ func (mongoClient *MongoDBClient) FindOne(databaseName string, collectionName st
 	return result
 }
 
-func (mongoClient *MongoDBClient) List(databaseName string, collectionName string) []models.Binary {
+func (mongoClient *MongoDBClient) ListBinaries(databaseName string, collectionName string) []models.Binary {
 	collection := mongoClient.client.Database(databaseName).Collection(collectionName)
 	cursor, err := collection.Find(mongoClient.ctx, bson.D{})
 	if err != nil {
