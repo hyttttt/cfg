@@ -3,25 +3,24 @@ package services
 import (
 	"cfg/models"
 	"context"
+	_ "github.com/joho/godotenv/autoload"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"log"
 	"os"
-	"time"
 )
 
 type MongoDBClient struct {
 	client *mongo.Client
 	ctx    context.Context
-	cancel context.CancelFunc
 }
 
 var mongoClient = NewMongoDBClient(os.Getenv("MONGODB_URI"))
 
 func NewMongoDBClient(uri string) *MongoDBClient {
-	client, ctx, cancel, err := ConnectMongo(uri)
+	client, ctx, err := ConnectMongo(uri)
 	if err != nil {
 		log.Println("connect mongodb failed")
 		log.Println(err.Error())
@@ -30,7 +29,7 @@ func NewMongoDBClient(uri string) *MongoDBClient {
 		log.Println("ping failed")
 		log.Println(err.Error())
 	}
-	return &MongoDBClient{client, ctx, cancel}
+	return &MongoDBClient{client, ctx}
 }
 
 func (mongoClient *MongoDBClient) FindBinary(databaseName string, collectionName string, filter bson.D) *models.Binary {
@@ -48,7 +47,7 @@ func (mongoClient *MongoDBClient) ListBinaries(databaseName string, collectionNa
 	collection := mongoClient.client.Database(databaseName).Collection(collectionName)
 	cursor, err := collection.Find(mongoClient.ctx, bson.D{})
 	if err != nil {
-		panic(err)
+		log.Println(err.Error())
 	}
 	var results []models.Binary
 	if err = cursor.All(context.TODO(), &results); err != nil {
@@ -61,12 +60,20 @@ func (mongoClient *MongoDBClient) ListBinaries(databaseName string, collectionNa
 	return results
 }
 
-func ConnectMongo(uri string) (*mongo.Client, context.Context, context.CancelFunc, error) {
-	ctx, cancel := context.WithTimeout(context.Background(),
-		30*time.Second)
+func (mongoClient *MongoDBClient) insertBinary(databaseName string, collectionName string, binary models.Binary) bool {
+	collection := mongoClient.client.Database(databaseName).Collection(collectionName)
+	_, err := collection.InsertOne(mongoClient.ctx, binary)
+	if err != nil {
+		return false
+	}
+	return true
+}
+
+func ConnectMongo(uri string) (*mongo.Client, context.Context, error) {
+	ctx := context.Background()
 
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
-	return client, ctx, cancel, err
+	return client, ctx, err
 }
 
 func CloseMongo(client *mongo.Client, ctx context.Context, cancel context.CancelFunc) {

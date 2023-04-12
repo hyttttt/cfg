@@ -37,7 +37,8 @@ func Dot(c *gin.Context) {
 func AnalyzeBinary(c *gin.Context) {
 	uploadFile, _ := c.FormFile("file")
 	log.Println(uploadFile.Filename)
-	uploadFilePath := "/home/gradle/upload/" + uploadFile.Filename
+	uploadFolder := "/home/gradle/upload/"
+	uploadFilePath := uploadFolder + uploadFile.Filename
 	c.SaveUploadedFile(uploadFile, uploadFilePath)
 	file, _ := os.Open(uploadFilePath)
 	hash := sha256.New()
@@ -47,17 +48,8 @@ func AnalyzeBinary(c *gin.Context) {
 	}
 	file.Close()
 	hashString := hex.EncodeToString(hash.Sum(nil))
-	os.Rename(uploadFilePath, "/home/gradle/upload/"+hashString)
-	uploadFilePath = "/home/gradle/upload/" + hashString
-	defer os.Remove(uploadFilePath)
-	services.AnalyzeHeadless("cfg.py", uploadFilePath)
-	dir, _ := os.ReadDir("/home/gradle/tmp/" + hashString)
-	defer os.RemoveAll("/home/gradle/tmp/" + hashString)
-	for _, file := range dir {
-		// defer os.Remove("/home/gradle/tmp/" + string(hash.Sum(nil)) + file.Name())
-		content, _ := os.ReadFile("/home/gradle/tmp/" + hashString + "/" + file.Name())
-		log.Println(file.Name())
-		log.Println(string(content))
-	}
+	os.Rename(uploadFilePath, uploadFolder+hashString)
+	uploadFilePath = uploadFolder + hashString
+	go services.AnalyzeHeadless("cfg.py", uploadFilePath, hashString)
 	c.JSON(http.StatusOK, gin.H{"hash": hashString})
 }
