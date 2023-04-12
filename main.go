@@ -2,7 +2,6 @@ package main
 
 import (
 	routes "cfg/router"
-	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
