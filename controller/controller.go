@@ -30,7 +30,7 @@ func Hash(c *gin.Context) {
 }
 
 func Dot(c *gin.Context) {
-	target := c.Query("cfg_id")
+	target := c.Param("cfg_id")
 	services.GetDot(c, target)
 }
 
