@@ -43,9 +43,10 @@ func (mongoClient *MongoDBClient) FindBinary(databaseName string, collectionName
 	return result
 }
 
-func (mongoClient *MongoDBClient) ListBinaries(databaseName string, collectionName string) []models.Binary {
+func (mongoClient *MongoDBClient) ListBinaries(databaseName string, collectionName string, filter bson.D, projection bson.D) []models.Binary {
 	collection := mongoClient.client.Database(databaseName).Collection(collectionName)
-	cursor, err := collection.Find(mongoClient.ctx, bson.D{})
+	opts := options.Find().SetProjection(projection)
+	cursor, err := collection.Find(mongoClient.ctx, filter, opts)
 	if err != nil {
 		log.Println(err.Error())
 	}
@@ -55,6 +56,15 @@ func (mongoClient *MongoDBClient) ListBinaries(databaseName string, collectionNa
 	}
 	if err != nil {
 		log.Println("find data failed")
+		log.Println(err.Error())
+	}
+	return results
+}
+
+func (mongoClient *MongoDBClient) ListField(databaseName string, collectionName string, field string) []interface{} {
+	collection := mongoClient.client.Database(databaseName).Collection(collectionName)
+	results, err := collection.Distinct(context.TODO(), field, bson.D{})
+	if err != nil {
 		log.Println(err.Error())
 	}
 	return results
