@@ -5,8 +5,8 @@ import (
 )
 
 type Binary struct {
-	Id       primitive.ObjectID `json:"cfg_id" bson:"_id"`
-	Hash     string             `json:"hash" bson:"hash"`
-	FuncName string             `json:"function" bson:"function"`
-	Dot      string             `json:"dot" bson:"dot"`
+	Id       primitive.ObjectID `json:"cfg_id" bson:"_id,omitempty"`
+	Hash     string             `json:"hash" bson:"hash,omitempty"`
+	FuncName string             `json:"function" bson:"function,omitempty"`
+	Dot      string             `json:"dot" bson:"dot,omitempty"`
 }
