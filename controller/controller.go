@@ -19,14 +19,13 @@ func CFGPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "cfg.html", gin.H{})
 }
 
-func Hash(c *gin.Context) {
-	target := c.Query("hash")
-	if target == "" {
-		services.GetHashList(c)
-	} else {
-		services.GetFunction(c, target)
-	}
+func HashList(c *gin.Context) {
+	services.GetHashList(c)
+}
 
+func Binary(c *gin.Context) {
+	target := c.Param("hash")
+	services.GetFunction(c, target)
 }
 
 func Dot(c *gin.Context) {

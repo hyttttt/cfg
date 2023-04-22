@@ -27,10 +27,11 @@ func register(method func(engine *gin.Engine, path string, handler func(c *gin.C
 
 func init() {
 	register(GET, "/", controller.HomePage)
-	register(GET, "/binary", controller.Hash)
 	register(GET, "/binary/:hash", controller.CFGPage)
-	register(GET, "/cfg/:cfg_id", controller.Dot)
-	register(POST, "/binary", controller.AnalyzeBinary)
+	register(GET, "/api/binary", controller.HashList)
+	register(GET, "/api/binary/:hash", controller.Binary)
+	register(GET, "/api/cfg/:cfg_id", controller.Dot)
+	register(POST, "/api/binary", controller.AnalyzeBinary)
 }
 
 func NewRouter() *gin.Engine {
