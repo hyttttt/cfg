@@ -4,12 +4,32 @@ import (
 	"cfg/services"
 	"crypto/sha256"
 	"encoding/hex"
+	"github.com/Jeffail/tunny"
 	"github.com/gin-gonic/gin"
 	"io"
 	"log"
 	"net/http"
 	"os"
+	"runtime"
 )
+
+var pool *tunny.Pool
+
+type AnalyzeTask struct {
+	file           string
+	uploadFilePath string
+	hashString     string
+}
+
+func init() {
+	numCPUs := runtime.NumCPU()
+	pool = tunny.NewFunc(numCPUs, func(task interface{}) interface{} {
+		analyzeTask := task.(AnalyzeTask)
+		services.AnalyzeHeadless(analyzeTask.file, analyzeTask.uploadFilePath, analyzeTask.hashString)
+		return true
+	})
+	pool.SetSize(1)
+}
 
 func HomePage(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", gin.H{})
@@ -49,6 +69,7 @@ func AnalyzeBinary(c *gin.Context) {
 	hashString := hex.EncodeToString(hash.Sum(nil))
 	os.Rename(uploadFilePath, uploadFolder+hashString)
 	uploadFilePath = uploadFolder + hashString
-	go services.AnalyzeHeadless("cfg.py", uploadFilePath, hashString)
+	analyzeTask := AnalyzeTask{"cfg.py", uploadFilePath, hashString}
+	go pool.Process(analyzeTask)
 	c.JSON(http.StatusOK, gin.H{"hash": hashString})
 }
