@@ -21,7 +21,7 @@ function mockApi(method, router, parameter) {
 }
 
 function uploadFile(file) {
-  console.log(file.name);
+  console.log("Upload file name: " + file.name);
 
   const form = new FormData();
   form.append("file", file);
@@ -36,7 +36,27 @@ function uploadFile(file) {
     .catch((error) => console.error(error));*/
 
   // get hash to find the cfg_ids & function names
-  var hash = mockApi("POST", "/binary", "");
+  //var hash = mockApi("POST", "/binary", "");
+
+  var hash = fetch("/binary", {
+    method: "POST",
+    body: form,
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error("Network response was not ok.");
+    })
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("There was a problem with the fetch operation:", error);
+    });
+
+  console.log("hash");
+  console.log(hash);
 
   // redirect to cfg page and bring data along
   window.location.href = "binary/" + hash["hash"];
