@@ -19,24 +19,24 @@ window.onload = function () {
 
   drawColorPattern("colors", "colorMeaning");
 
-  testApi(hash, cfg_list.function[0].cfg_id);
+  //testApi(hash, cfg_list.function[0].cfg_id);
 };
 
 function testApi(hash, cfg_id) {
   console.log("/binary");
-  fetch("/binary")
+  fetch("/api/binary")
     .then((response) => response.json())
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 
   console.log("/binary/hash");
-  fetch("/binary/" + hash)
+  fetch("/api/binary/" + hash)
     .then((response) => response.json())
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 
   console.log("/cfg/cfg_id");
-  fetch("/cfg/" + cfg_id)
+  fetch("/api/cfg/" + cfg_id)
     .then((response) => response.json())
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
