@@ -1,6 +1,18 @@
 window.onload = function () {
   // load the binaries we have and make it a list
-  var hash_list = mockApi("GET", "/binary", "");
+  //var hash_list = mockApi("GET", "/binary", "");
+  var hash_list = fetch("/api/binary")
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error("Network response was not ok. Get hash list failed.");
+    })
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+
+  console.log("hash list");
+  console.log(hash_list);
   loadList(hash_list);
 
   const fileInput = document.querySelector("#fileInput");
@@ -38,7 +50,7 @@ function uploadFile(file) {
   // get hash to find the cfg_ids & function names
   //var hash = mockApi("POST", "/binary", "");
 
-  var hash = fetch("/binary", {
+  var hash = fetch("/api/binary", {
     method: "POST",
     body: form,
   })
@@ -46,7 +58,7 @@ function uploadFile(file) {
       if (response.ok) {
         return response.json();
       }
-      throw new Error("Network response was not ok.");
+      throw new Error("Network response was not ok. Get hash failed.");
     })
     .then((data) => {
       console.log(data);
