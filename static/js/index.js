@@ -1,14 +1,20 @@
 window.onload = function () {
   // load the binaries we have and make it a list
   //var hash_list = mockApi("GET", "/binary", "");
-  var hash_list = fetch("api/binary")
-    .then((response) => {
-      if (response.ok) {
-        return response.blob();
-      }
-      throw new Error("Network response was not ok. Get hash list failed.");
+  var hash_list;
+  fetch("api/binary")
+    .then((response) => response.blob())
+    .then((blob) => {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const text = reader.result;
+        const data = JSON.parse(text);
+
+        hash_list = data;
+        console.log(data);
+      };
+      reader.readAsText(blob);
     })
-    .then((data) => console.log(data))
     .catch((error) => console.error(error));
 
   console.log("hash list");
@@ -38,34 +44,27 @@ function uploadFile(file) {
   const form = new FormData();
   form.append("file", file);
 
-  // upload to backend
-  /*fetch("/binary", {
-    method: "POST",
-    body: form,
-  })
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));*/
-
   // get hash to find the cfg_ids & function names
   //var hash = mockApi("POST", "/binary", "");
 
-  var hash = fetch("api/binary", {
+  var hash;
+  fetch("api/binary", {
     method: "POST",
     body: form,
   })
-    .then((response) => {
-      if (response.ok) {
-        return response.blob();
-      }
-      throw new Error("Network response was not ok. Get hash failed.");
+    .then((response) => response.blob())
+    .then((blob) => {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const text = reader.result;
+        const data = JSON.parse(text);
+
+        hash = data;
+        console.log(data);
+      };
+      reader.readAsText(blob);
     })
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((error) => {
-      console.error("There was a problem with the fetch operation:", error);
-    });
+    .catch((error) => console.error(error));
 
   console.log("hash");
   console.log(hash);
