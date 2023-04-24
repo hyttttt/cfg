@@ -59,7 +59,7 @@ function uploadFile(file) {
   console.log(hash);
 
   // redirect to cfg page and bring data along
-  window.location.href = "binary/" + hash["hash"];
+  //window.location.href = "binary/" + hash["hash"];
 }
 
 // load the binaries we have and make it a list
