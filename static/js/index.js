@@ -1,7 +1,7 @@
 window.onload = function () {
   // load the binaries we have and make it a list
   //var hash_list = mockApi("GET", "/binary", "");
-  var hash_list = fetch("/api/binary")
+  var hash_list = fetch("api/binary")
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -50,7 +50,7 @@ function uploadFile(file) {
   // get hash to find the cfg_ids & function names
   //var hash = mockApi("POST", "/binary", "");
 
-  var hash = fetch("/api/binary", {
+  var hash = fetch("api/binary", {
     method: "POST",
     body: form,
   })
