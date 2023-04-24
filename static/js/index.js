@@ -4,7 +4,7 @@ window.onload = function () {
   var hash_list = fetch("api/binary")
     .then((response) => {
       if (response.ok) {
-        return response.json();
+        return response.blob();
       }
       throw new Error("Network response was not ok. Get hash list failed.");
     })
@@ -56,7 +56,7 @@ function uploadFile(file) {
   })
     .then((response) => {
       if (response.ok) {
-        return response.json();
+        return response.blob();
       }
       throw new Error("Network response was not ok. Get hash failed.");
     })
