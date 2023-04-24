@@ -1,17 +1,18 @@
 window.onload = function () {
   // load the binaries we have and make it a list
   //var hash_list = mockApi("GET", "/binary", "");
-  var hash_list;
-  fetch("api/binary")
-    .then((response) => response.blob())
+  var hash_list = fetch("api/binary")
+    .then((response) => {
+      return response.blob();
+    })
     .then((blob) => {
       const reader = new FileReader();
       reader.onload = function () {
         const text = reader.result;
         const data = JSON.parse(text);
-
-        hash_list = data;
+        console.log("blob");
         console.log(data);
+        hash_list = data;
       };
       reader.readAsText(blob);
     })
