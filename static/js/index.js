@@ -1,16 +1,5 @@
 window.onload = function () {};
 
-function mockApi(method, router, parameter) {
-  // upload binary then return hash
-  if (method == "POST" && router == "/binary") {
-    return { hash: "output_hash" }; // temperarily return a dot file name
-  }
-  // return hash list (all the binaries in the database)
-  else if (method == "GET" && router == "/binary" && parameter == "") {
-    return { hash_list: ["output_hash", "simple1_hash", "ais3_crackme_hash"] };
-  }
-}
-
 function uploadFile() {
   var fileInput = document.getElementById("fileInput");
   var file = fileInput.files[0];
@@ -26,13 +15,10 @@ function uploadFile() {
       return response.json();
     })
     .then((response) => {
-      goCFG(response.hash);
+      // redirect to cfg page and bring data along
+      window.location.href = "binary/" + response.hash;
     })
     .catch((error) => console.error(error));
-}
-
-function goCFG(hash) {
-  fetch(`/binary/${hash}`).catch((error) => console.error(error));
 }
 
 // load the binaries we have and make it a list

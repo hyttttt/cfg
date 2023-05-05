@@ -12,35 +12,25 @@ window.onload = function () {
   var hash = path[path.length - 1];
 
   // load the function list
-  var cfg_list = mockApi("GET", "/binary", hash);
+  var cfg_list;
+
+  fetch(`/binary/${hash}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((response) => {
+      console.log("/binary/:hash response");
+      console.log(response);
+      //cfg_list = response;
+    })
+    .catch((error) => console.error(error));
+
   loadList(cfg_list);
 
   refreshDot(cfg_list.function[0].cfg_id);
 
   drawColorPattern("colors", "colorMeaning");
-
-  //testApi(hash, cfg_list.function[0].cfg_id);
 };
-
-function testApi(hash, cfg_id) {
-  console.log("/binary");
-  fetch("/api/binary")
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-
-  console.log("/binary/hash");
-  fetch("/api/binary/" + hash)
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-
-  console.log("/cfg/cfg_id");
-  fetch("/api/cfg/" + cfg_id)
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-}
 
 // Intent: Refresh dot graph with the cfg_id
 // Parameter: cfg_id (string)
