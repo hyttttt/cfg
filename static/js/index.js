@@ -1,31 +1,4 @@
-window.onload = function () {
-  // load the binaries we have and make it a list
-  //var hash_list = mockApi("GET", "/binary", "");
-  /*var hash_list = fetch("api/binary")
-    .then((response) => {
-      return response.blob();
-    })
-    .then((blob) => {
-      const reader = new FileReader();
-      reader.onload = function () {
-        const text = reader.result;
-        const data = JSON.parse(text);
-        console.log("blob");
-        console.log(data);
-        hash_list = data;
-      };
-      reader.readAsText(blob);
-    })
-    .catch((error) => console.error(error));
-
-  console.log("hash list");
-  console.log(hash_list);
-  loadList(hash_list);*/
-  /*var fileInput = document.getElementById("fileInput");
-  fileInput.addEventListener("change", (event) => {
-    uploadFile(event.target.files[0]);
-  });*/
-};
+window.onload = function () {};
 
 function mockApi(method, router, parameter) {
   // upload binary then return hash
@@ -41,14 +14,9 @@ function mockApi(method, router, parameter) {
 function uploadFile() {
   var fileInput = document.getElementById("fileInput");
   var file = fileInput.files[0];
-  console.log("Upload file:");
-  console.log(file);
-  //console.log("Upload file name: " + file.name);
 
   var formData = new FormData();
   formData.append("file", file);
-  console.log("Form data:");
-  console.log(formData);
 
   fetch("/api/binary", {
     method: "POST",
@@ -58,15 +26,13 @@ function uploadFile() {
       return response.json();
     })
     .then((response) => {
-      console.log(response);
-    })
-    .then((data) => {
-      // 处理响应数据
+      goCFG(response.hash);
     })
     .catch((error) => console.error(error));
+}
 
-  // redirect to cfg page and bring data along
-  //window.location.href = "binary/" + hash["hash"];
+function goCFG(hash) {
+  fetch(`/binary/${hash}`).catch((error) => console.error(error));
 }
 
 // load the binaries we have and make it a list
