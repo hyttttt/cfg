@@ -1,7 +1,7 @@
 window.onload = function () {
   // load the binaries we have and make it a list
   //var hash_list = mockApi("GET", "/binary", "");
-  var hash_list = fetch("api/binary")
+  /*var hash_list = fetch("api/binary")
     .then((response) => {
       return response.blob();
     })
@@ -20,7 +20,7 @@ window.onload = function () {
 
   console.log("hash list");
   console.log(hash_list);
-  loadList(hash_list);
+  loadList(hash_list);*/
 
   const fileInput = document.querySelector("#fileInput");
   fileInput.addEventListener("change", (event) => {
