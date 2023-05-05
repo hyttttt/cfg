@@ -54,7 +54,7 @@ function uploadFile() {
     method: "POST",
     body: formData,
   })
-    .then((response) => consle.log(response.json()))
+    .then((response) => console.log(response.json()))
     .then((data) => {
       // 处理响应数据
     })
