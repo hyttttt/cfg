@@ -36,10 +36,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <a
-                    class="nav-link active"
-                    aria-current="page"
-                    href="/"
+                  <a class="nav-link active" aria-current="page" href="/"
                     >Home</a
                   >
                 </li>
@@ -84,7 +81,21 @@
 
           <!-- upload file button start -->
           <h5><br />You can upload your file</h5>
-          <input class="form-control" type="file" id="fileInput" />
+          <div class="row">
+            <div class="col-10">
+              <input class="form-control" type="file" id="fileInput" />
+            </div>
+            <div class="col-2">
+              <button
+                type="button"
+                class="btn btn-purple"
+                onclick="uploadFile()"
+              >
+                upload
+              </button>
+            </div>
+          </div>
+
           <!-- upload file button end -->
 
           <!-- select file list start -->

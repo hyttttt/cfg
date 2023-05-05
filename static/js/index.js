@@ -21,11 +21,10 @@ window.onload = function () {
   console.log("hash list");
   console.log(hash_list);
   loadList(hash_list);*/
-
-  const fileInput = document.querySelector("#fileInput");
+  /*var fileInput = document.getElementById("fileInput");
   fileInput.addEventListener("change", (event) => {
     uploadFile(event.target.files[0]);
-  });
+  });*/
 };
 
 function mockApi(method, router, parameter) {
@@ -39,36 +38,22 @@ function mockApi(method, router, parameter) {
   }
 }
 
-function uploadFile(file) {
+function uploadFile() {
+  var fileInput = document.getElementById("fileInput");
+  var file = fileInput.files[0];
   console.log("Upload file name: " + file.name);
 
-  const form = new FormData();
-  form.append("file", file);
-
-  // get hash to find the cfg_ids & function names
-  //var hash = mockApi("POST", "/binary", "");
-
-  var hash;
-  fetch("api/binary", {
+  var formData = new FormData();
+  formData.append("file", file);
+  fetch("/api/binary", {
     method: "POST",
-    body: form,
+    body: formData,
   })
-    .then((response) => response.blob())
-    .then((blob) => {
-      const reader = new FileReader();
-      reader.onload = function () {
-        const text = reader.result;
-        const data = JSON.parse(text);
-
-        hash = data;
-        console.log(data);
-      };
-      reader.readAsText(blob);
+    .then((response) => consle.log(response.json()))
+    .then((data) => {
+      // 处理响应数据
     })
     .catch((error) => console.error(error));
-
-  console.log("hash");
-  console.log(hash);
 
   // redirect to cfg page and bring data along
   //window.location.href = "binary/" + hash["hash"];
