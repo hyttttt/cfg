@@ -41,10 +41,15 @@ function mockApi(method, router, parameter) {
 function uploadFile() {
   var fileInput = document.getElementById("fileInput");
   var file = fileInput.files[0];
-  console.log("Upload file name: " + file.name);
+  console.log("Upload file:");
+  console.log(file);
+  //console.log("Upload file name: " + file.name);
 
   var formData = new FormData();
   formData.append("file", file);
+  console.log("Form data:");
+  console.log(formData);
+
   fetch("/api/binary", {
     method: "POST",
     body: formData,
