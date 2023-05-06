@@ -54,7 +54,7 @@ function loadingPage() {
 function analyzingDone(hash) {
   // check if analysis done every 10 sec
   setInterval(function () {
-    fetch(`/binary/${hash}`)
+    fetch(`/api/binary/${hash}`)
       .then((response) => response.json())
       .then((response) => {
         if (response.length != 0) {
