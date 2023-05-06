@@ -143,6 +143,7 @@ function parseDot(raw) {
 
       var node = temp2[temp2.length - 2];
       node = node.replace("\n", "");
+      node = node.replace("{", "");
 
       nodeList.push({ node: node, assembly: assembly });
     }
