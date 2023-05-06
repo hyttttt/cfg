@@ -142,6 +142,7 @@ function parseDot(raw) {
       }
 
       var node = temp2[temp2.length - 2];
+      node = node.replace("\n", "");
 
       nodeList.push({ node: node, assembly: assembly });
     }
@@ -165,7 +166,11 @@ function parseDot(raw) {
       var flowType = temp2[1].slice(0, -1);
 
       digraph += edge + `[label=${flowType}];`;
-      edgeList.push({ node1: nodes[0], node2: nodes[1], flowType: flowType });
+      edgeList.push({
+        node1: nodes[0].replace("\n", ""),
+        node2: nodes[1],
+        flowType: flowType,
+      });
     }
   }
 
