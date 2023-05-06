@@ -57,11 +57,11 @@ function analyzingDone(hash) {
     fetch(`/api/binary/${hash}`)
       .then((response) => response.json())
       .then((response) => {
-        if (response.length != 0) {
+        if (response != null) {
           console.log("analysis done:");
           console.log(response);
         } else console.log("analysis not done");
-        //if (response.length != 0) window.location.href = "binary/" + hash;
+        //if (response.length != null) window.location.href = "binary/" + hash;
       })
       .catch((error) => console.error(error));
   }, 10000);
