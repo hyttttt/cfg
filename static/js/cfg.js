@@ -12,22 +12,15 @@ window.onload = function () {
   var hash = path[path.length - 1];
 
   // load the function list
-  var cfg_list;
-
-  fetch(`/binary/${hash}`)
+  fetch(`/api/binary/${hash}`)
     .then((response) => {
-      return response.text();
+      return response.json();
     })
     .then((response) => {
-      console.log("/binary/:hash response");
-      console.log(response);
-      //cfg_list = response;
+      loadList(response);
+      refreshDot(response[0].cfg_id);
     })
     .catch((error) => console.error(error));
-
-  loadList(cfg_list);
-
-  refreshDot(cfg_list.function[0].cfg_id);
 
   drawColorPattern("colors", "colorMeaning");
 };
@@ -37,7 +30,15 @@ window.onload = function () {
 // Return: None
 function refreshDot(cfg_id) {
   // parsing raw dot file
-  var raw = mockApi("GET", "/cfg", cfg_id);
+  var raw;
+  fetch(`/api/cfg/${cfg_id}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((response) => {
+      raw = response.dot;
+    })
+    .catch((error) => console.error(error));
   var mydot = parseDot(raw.dot);
   var digraph = mydot.digraph;
   var nodeList = mydot.nodeList;
@@ -237,16 +238,16 @@ function mockApi(method, router, parameter) {
 function loadList(data) {
   var myList = document.getElementById("myList");
 
-  for (i = 0; i < data.function.length; i++) {
+  for (i = 0; i < data.length; i++) {
     const newLi = document.createElement("a");
-    newLi.innerHTML = data.function[i].name;
+    newLi.innerHTML = data[i].function;
     newLi.className = "list-group-item";
 
     (function (id) {
       newLi.onclick = function () {
         refreshDot(id);
       };
-    })(data.function[i].cfg_id);
+    })(data[i].cfg_id);
 
     newLi.onmouseover = function () {
       this.className = "list-group-item active";
