@@ -1,22 +1,18 @@
 window.onload = function () {
   // get hash list
-  var list;
   fetch("/api/binary")
     .then((response) => {
       return response.json();
     })
     .then((response) => {
-      list = response;
       console.log("hash list:");
       console.log(response);
+      loadList(response);
     })
     .catch((error) => console.error(error));
-
-  loadList(list);
 };
 
 function uploadFile() {
-  var hash;
   var fileInput = document.getElementById("fileInput");
   var file = fileInput.files[0];
 
@@ -35,8 +31,7 @@ function uploadFile() {
     .then((response) => {
       // redirect to cfg page and bring data along
       //window.location.href = "binary/" + response.hash;
-      hash = response.hash;
-      analyzingDone(hash);
+      analyzingDone(response.hash);
       console.log("upload hash:");
       console.log(response);
     })
