@@ -39,6 +39,11 @@ function refreshDot(cfg_id) {
       var nodeList = mydot.nodeList;
       var edgeList = mydot.edgeList;
 
+      console.log("raw dot:");
+      console.log(response.dot);
+      console.log("clean dot:");
+      console.log(mydot);
+
       // clear old assembly div
       for (i = 0; i < nodeList.length; i++) {
         const assDiv = document.getElementById(nodeList[i].node);
