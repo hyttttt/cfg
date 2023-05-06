@@ -30,7 +30,7 @@ window.onload = function () {
 // Return: None
 function refreshDot(cfg_id) {
   // parsing raw dot file
-  var raw;
+  var raw = "";
   fetch(`/api/cfg/${cfg_id}`)
     .then((response) => {
       return response.json();
