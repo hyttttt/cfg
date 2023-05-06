@@ -6,3 +6,16 @@
 #content {
   font-family: "Noto Sans";
 }
+
+#contentArea {
+  padding-top: 40px;
+}
+
+.mySpinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3rem;
+  height: 3rem;
+  border-width: 7px;
+}

@@ -59,54 +59,9 @@
       </div>
       <!--Navigator bar end-->
 
-      <!--Content area start-->
-      <div class="row justify-content-center" id="contentArea">
-        <div class="col-2"></div>
-        <div class="col-8" id="content">
-          <!-- Description start -->
-          <h1 style="font-weight: bold">Lorem Ipsum</h1>
-
-          <p>
-            <br />
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. Lorem Ipsum is simply
-            dummy text of the printing and typesetting industry. Lorem Ipsum has
-            been the industry's standard dummy text ever since the 1500s, when
-            an unknown printer took a galley of type and scrambled it to make a
-            type specimen book.
-          </p>
-          <!-- Description end -->
-
-          <!-- upload file button start -->
-          <h5><br />You can upload your file</h5>
-          <div class="row">
-            <div class="col-10">
-              <input class="form-control" type="file" id="fileInput" />
-            </div>
-            <div class="col-2">
-              <button
-                type="button"
-                class="btn btn-purple"
-                onclick="uploadFile()"
-              >
-                upload
-              </button>
-            </div>
-          </div>
-
-          <!-- upload file button end -->
-
-          <!-- select file list start -->
-          <h5><br />...or select from our list</h5>
-          <div class="list-group" id="myList"></div>
-
-          <!-- select file list end -->
-        </div>
-        <div class="col-2"></div>
+      <div class="spinner-border text-purple mySpinner" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
-      <!--Content area end-->
     </div>
 
     <script src="../static/js/index.js"></script>

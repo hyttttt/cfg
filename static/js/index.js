@@ -7,17 +7,23 @@ window.onload = function () {
     })
     .then((response) => {
       list = response;
+      console.log("hash list:");
       console.log(response);
     })
     .catch((error) => console.error(error));
+
+  loadList(list);
 };
 
 function uploadFile() {
+  var hash;
   var fileInput = document.getElementById("fileInput");
   var file = fileInput.files[0];
 
   var formData = new FormData();
   formData.append("file", file);
+
+  loadingPage();
 
   fetch("/api/binary", {
     method: "POST",
@@ -29,20 +35,52 @@ function uploadFile() {
     .then((response) => {
       // redirect to cfg page and bring data along
       //window.location.href = "binary/" + response.hash;
+      hash = response.hash;
+      analyzingDone(hash);
+      console.log("upload hash:");
       console.log(response);
     })
     .catch((error) => console.error(error));
+}
+
+function loadingPage() {
+  var oldDiv = document.getElementById("contentArea");
+
+  // create new div
+  var newDiv = document.createElement("div");
+  newDiv.className = "spinner-border text-purple mySpinner";
+  newDiv.role = "status";
+
+  // find parent div
+  var parent = oldDiv.parentNode;
+  parent.replaceChild(newDiv, oldDiv);
+}
+
+function analyzingDone(hash) {
+  // check if analysis done every 10 sec
+  setInterval(function () {
+    fetch(`/binary/${hash}`)
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.length != 0) {
+          console.log("analysis done:");
+          console.log(response);
+        } else console.log("analysis not done");
+        //if (response.length != 0) window.location.href = "binary/" + hash;
+      })
+      .catch((error) => console.error(error));
+  }, 10000);
 }
 
 // load the binaries we have and make it a list
 function loadList(list) {
   var myList = document.getElementById("myList");
 
-  for (i = 0; i < list.hash_list.length; i++) {
+  for (i = 0; i < list.length; i++) {
     const newLi = document.createElement("a");
-    newLi.innerHTML = list.hash_list[i];
+    newLi.innerHTML = list[i];
     newLi.className = "list-group-item";
-    newLi.href = "binary/" + list.hash_list[i];
+    newLi.href = "binary/" + list[i];
 
     newLi.onmouseover = function () {
       this.className = "list-group-item active";
