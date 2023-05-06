@@ -39,7 +39,7 @@ function refreshDot(cfg_id) {
       raw = response.dot;
     })
     .catch((error) => console.error(error));
-  var mydot = parseDot(raw.dot);
+  var mydot = parseDot(raw);
   var digraph = mydot.digraph;
   var nodeList = mydot.nodeList;
   var edgeList = mydot.edgeList;
