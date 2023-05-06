@@ -29,32 +29,26 @@ window.onload = function () {
 // Parameter: cfg_id (string)
 // Return: None
 function refreshDot(cfg_id) {
-  // parsing raw dot file
-  var raw = "";
   fetch(`/api/cfg/${cfg_id}`)
     .then((response) => {
       return response.json();
     })
     .then((response) => {
-      raw = response.dot;
+      var mydot = parseDot(response.dot);
+      var digraph = mydot.digraph;
+      var nodeList = mydot.nodeList;
+      var edgeList = mydot.edgeList;
+
+      // clear old assembly div
+      for (i = 0; i < nodeList.length; i++) {
+        const assDiv = document.getElementById(nodeList[i].node);
+        if (assDiv) assDiv.remove();
+      }
+
+      // draw the graph according to dot file
+      drawDot(digraph, nodeList, edgeList);
     })
     .catch((error) => console.error(error));
-
-  console.log("raw:");
-  console.log(raw);
-  var mydot = parseDot(raw);
-  var digraph = mydot.digraph;
-  var nodeList = mydot.nodeList;
-  var edgeList = mydot.edgeList;
-
-  // clear old assembly div
-  for (i = 0; i < nodeList.length; i++) {
-    const assDiv = document.getElementById(nodeList[i].node);
-    if (assDiv) assDiv.remove();
-  }
-
-  // draw the graph according to dot file
-  drawDot(digraph, nodeList, edgeList);
 }
 
 // Intent: Draw the color pattern
