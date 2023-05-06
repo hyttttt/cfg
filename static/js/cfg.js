@@ -136,7 +136,7 @@ function parseDot(raw) {
 
       // turn dot's break line notation (\n) into html format (<br>)
       var assembly = "";
-      var temp3 = temp1[1].split("\n");
+      var temp3 = temp1[1].split("\\n");
       for (j = 0; j < temp3.length; j++) {
         if (temp3[j] != "") assembly += temp3[j] + "<br>";
       }
