@@ -37,11 +37,11 @@ function refreshDot(cfg_id) {
     })
     .then((response) => {
       raw = response.dot;
-      console.log("dot:");
-      console.log(typeof raw);
-      console.log(raw);
     })
     .catch((error) => console.error(error));
+
+  console.log("raw:");
+  console.log(raw);
   var mydot = parseDot(raw);
   var digraph = mydot.digraph;
   var nodeList = mydot.nodeList;
