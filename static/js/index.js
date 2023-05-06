@@ -29,8 +29,6 @@ function uploadFile() {
       return response.json();
     })
     .then((response) => {
-      // redirect to cfg page and bring data along
-      //window.location.href = "binary/" + response.hash;
       analyzingDone(response.hash);
       console.log("upload hash:");
       console.log(response);
@@ -57,11 +55,7 @@ function analyzingDone(hash) {
     fetch(`/api/binary/${hash}`)
       .then((response) => response.json())
       .then((response) => {
-        if (response != null) {
-          console.log("analysis done:");
-          console.log(response);
-        } else console.log("analysis not done");
-        //if (response.length != null) window.location.href = "binary/" + hash;
+        if (response != null) window.location.href = "binary/" + hash;
       })
       .catch((error) => console.error(error));
   }, 10000);

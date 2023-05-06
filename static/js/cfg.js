@@ -16,7 +16,7 @@ window.onload = function () {
 
   fetch(`/binary/${hash}`)
     .then((response) => {
-      return response.json();
+      return response.text();
     })
     .then((response) => {
       console.log("/binary/:hash response");
